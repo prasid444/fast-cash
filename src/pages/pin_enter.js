@@ -14,6 +14,7 @@ import NeuButton from '../components/neu_button';
 import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import { Toast } from 'native-base';
+import { ScrollView } from 'react-native';
 
 class PinEnterPage extends Component {
   constructor(props) {
@@ -45,19 +46,28 @@ class PinEnterPage extends Component {
 
   render() {
     const {pressedKeys,remainingTime}=this.state;
-    return (<Container>
-        <Content contentContainerStyle={{
+    return (
+    <Container style={{
+      backgroundColor:'inherit',
+      // flex:1
+    }}>
+        <Content style={{
+          // flex:1,
+          // overflow:'scroll'
+        }} contentContainerStyle={{
             display:'flex',
             flexDirection:'column',
+            // height:'100%',
             justifyContent:'space-between',
-            flex:1,
+            // flex:1,
             padding:24,
+            overflow:'scroll'
             // backgroundColor:'red'
         }}>
-        <Text style={{
+        {/* <Text style={{
             fontSize:50,
             fontWeight:'100'
-        }}>Simple Cash</Text>
+        }}>Simple Cash</Text> */}
         <View>
         <Text style={{
             fontWeight:'100'
@@ -76,8 +86,8 @@ class PinEnterPage extends Component {
           paddingRight:'5%',
           alignItems:'center',
           justifyContent:'center',
-          paddingTop:40,
-          paddingBottom:40
+          paddingTop:12,
+          paddingBottom:12
           // backgroundColor:'red'
         }}>
           
@@ -131,23 +141,21 @@ class PinEnterPage extends Component {
             }}><Text>Resend</Text></Button>}
         </View>
         </View>
-     <View style={{
+        <View style={{
          display:'flex',
          width:'100%',
          flexDirection:'row',
          justifyContent:'center',
      }}>
-     <NeuButton  noPressedState={true}   width={'80%'} style={{ height: 80,backgroundColor:'white',borderRadius: 50}} onPress={() => {
+     <NeuButton  noPressedState={true}   width={'80%'} style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
         //   alert("I was pressed")
         this.props.history.push('/home')
         }}>
           <Text style={{ opacity: 0.9 }}>CONTINUE</Text>
         </NeuButton>
         </View>
-
         </Content>
     </Container>
-     
     );
   }
 }

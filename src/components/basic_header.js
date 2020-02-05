@@ -2,13 +2,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, Text, Icon} from 'native-base';
+import { withRouter } from 'react-router-native';
+import NeuButton from './neu_button';
 
 class BasicHeader extends Component {
   render() {
     return (
       <View
         style={{
-          height: 48,
+          // height: 48,
           width: '100%',
           padding: 8,
           display: 'flex',
@@ -16,30 +18,22 @@ class BasicHeader extends Component {
           justifyContent: 'space-between',
           alignItems:'center'
         }}>
-        {this.props.left || (
-          <View style={{
-            display:'flex',
-            flexDirection:'row',
-            alignItems:'center'
-          }}>
-            {typeof this.props.onLeftClick==='function'&&
-            <Icon onPress={()=>{
-              this.props.onLeftClick()
-            }} type='Feather' name='arrow-left' style={{
-              color:'#82589F',
-              marginRight: 8,
-            }} />}
-          <Text
-            style={{
-              color: '#82589F',
-              fontSize: 28,
-              fontWeight: 'bold',
+          <View>
+            {!this.props.no_back&&
+            <NeuButton width={80} style={{
+              width:'100%',
+              borderRadius:40,
+              backgroundColor:'white'
+            }}  noPressedState={true} onPress={()=>{
+                this.props.history.goBack()
+  
             }}>
-            {this.props.title||
-            "ShareEx"}
-          </Text>
-          </View>
-        )}
+                <Icon style={{
+                    opacity:0.4
+                }} name='ios-arrow-back' type='Ionicons'/>
+            </NeuButton>
+           }
+           </View>
         <View>{this.props.body}</View>
         <View>{this.props.right}</View>
       </View>
@@ -47,4 +41,4 @@ class BasicHeader extends Component {
   }
 }
 
-export default BasicHeader;
+export default BasicHeader=withRouter(BasicHeader);

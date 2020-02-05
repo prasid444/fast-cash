@@ -13,41 +13,54 @@ import { View, Text, Container } from 'native-base';
 import NeuButton from '../components/neu_button';
 import { Icon } from 'native-base';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import BasicHeader from '../components/basic_header';
+import { Toast } from 'native-base';
 
 class QrScannerPage extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      selectedUser:null
+    }
+  }
+  
 
     onSuccess = (e) => {
-        console.log("read data",e)
+        console.log("read data",typeof e.data);
+        let selecteduser=null;
+        let user_data_string=e.data;
+        try{
+            let user_data=JSON.parse(user_data_string);
+            if(user_data.name&&user_data.number){
+              this.setState({
+                selectedUser:user_data
+              })
+            }else throw new Error("Not valid QR")
+        }catch(e){
+          Toast.show({
+            type:'danger',
+            text:"Invalid QR Code"
+          });
+          this.setState({selectedUser:null})
+        }
+        
       }
     
   render() {
-    return (<Container>
-
+    const {selectedUser}=this.state;
+    return (<Container style={{
+      backgroundColor:'inherit'
+    }}>
+      <BasicHeader/>
    
       <View style={{
           display:'flex',
           flexDirection:'column',
           justifyContent:'space-between',
-          flex:1
+          flex:1,
+          
       }}>
-          <View style={{
-            display:'flex',
-            flexDirection:'row',
-            // backgroundColor:'red'
-        }}>
-            <NeuButton width={80} style={{
-            width:'100%',
-            borderRadius:40,
-            backgroundColor:'white'
-          }}  noPressedState={true} onPress={()=>{
-              this.props.history.goBack()
-
-          }}>
-              <Icon style={{
-                  opacity:0.4
-              }} name='ios-arrow-back' type='Ionicons'/>
-          </NeuButton>
-        </View>
       <View style={{
           display:'flex',
           flexDirection:'column',
@@ -76,26 +89,28 @@ class QrScannerPage extends Component {
               flexDirection:'row',
               justifyContent:'center'
           }}>
+            {selectedUser&&selectedUser.name&&<React.Fragment>
               <Text style={{
                 fontWeight:'200'
             }}>To : </Text>
             <Text style={{
                 fontWeight:'bold'
-            }}>Anuj Poudel</Text>
-
+            }}>{selectedUser.name}</Text>
+          </React.Fragment>}
           </View>
           <View style={{
               display:'flex',
               flexDirection:'row',
               justifyContent:'center'
           }}>
+            {selectedUser&&selectedUser.number&&<React.Fragment>
               <Text style={{
                 fontWeight:'200'
             }}>Number : </Text>
             <Text style={{
                 fontWeight:'bold'
-            }}>+977 9817777777</Text>
-
+          }}>{selectedUser.number}</Text>
+        </React.Fragment>}
           </View>
           <View style={{
                   display:'flex',
@@ -120,7 +135,7 @@ class QrScannerPage extends Component {
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          this.props.history.push('/contacts')
+          this.props.history.push('/transactiondetails')
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>
         </NeuButton>

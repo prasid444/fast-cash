@@ -7,8 +7,9 @@ import HomePage from './pages/home';
 import ContactListPage from './pages/contacts_list';
 import QrScannerPage from './pages/qr_scanner';
 import PinEnterPage from './pages/pin_enter';
+import TransactionDetail from './pages/transaction_detail';
 
-export const defaultRoute='/landing';
+export const defaultRoute='/home';
 export const defaultWorkspaceRoute='/workspaces';
 export const defaultHomepageRoute='/homes'
 
@@ -36,5 +37,9 @@ export default {
   '/pin-enter':{
     requireAuth:false,
     component:PinEnterPage
+  },
+  '/transactiondetails':{
+    requireAuth:false,
+    component:TransactionDetail
   }
 };

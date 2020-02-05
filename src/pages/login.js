@@ -21,12 +21,13 @@ class LoginPage extends Component {
     super(props)
   
     this.state = {
-       pressedKeys:""
+       pressedKeys:"",
+       showKeyPad:false
     }
   }
   
   render() {
-    const {pressedKeys}=this.state;
+    const {pressedKeys,showKeyPad}=this.state;
     return (<Container>
         <Content contentContainerStyle={{
             display:'flex',
@@ -34,20 +35,18 @@ class LoginPage extends Component {
             justifyContent:'space-between',
             flex:1,
             padding:24,
-            backgroundColor:'rgba(250, 250, 248,1)'
+            backgroundColor:'rgba(245, 245, 245,1)'
         }}>
         <Text style={{
             fontSize:50,
-            fontWeight:'100'
+            fontWeight:'100',
+            opacity:0.8
         }}>Simple Cash</Text>
         <View>
         <Text style={{
-            fontWeight:'100'
+            fontWeight:'100',
+            opacity:0.5
         }}>Enter your mobile number to continue</Text>
-        <NeuUnpressedView style={{
-          backgroundColor:'white',
-          borderRadius:20,
-        }} />
         <View style={{
           display:'flex',
           flexDirection:'row',
@@ -72,6 +71,7 @@ class LoginPage extends Component {
             width:'100%',
             borderRadius:10
           }}  noPressedState={true} onPress={()=>{
+            this.setState({showKeyPad:true})
 
           }}>
             {pressedKeys.length==0?
@@ -91,12 +91,13 @@ class LoginPage extends Component {
             paddingRight:8
             }}>{pressedKeys}</Text>}</NeuButton>
         </View>
+        {showKeyPad&&
         <NeuKeypad maxLength={10} onChange={(keys)=>{
           this.setState({
             pressedKeys:keys
           })
 
-        }}/>
+        }}/>}
         </View>
      <View style={{
          display:'flex',
@@ -104,7 +105,7 @@ class LoginPage extends Component {
          flexDirection:'row',
          justifyContent:'center',
      }}>
-     <NeuButton  noPressedState={true}   width={'80%'} style={{ height: 80,backgroundColor:'white',borderRadius: 50}} onPress={() => {
+     <NeuButton disabled={!showKeyPad}  noPressedState={true}   width={'80%'} style={{ backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
           this.props.history.push('/pin-enter')
         }}>

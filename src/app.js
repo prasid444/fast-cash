@@ -54,7 +54,7 @@ class App extends Component {
                 <StackWrapper>
                     <Stack
                         // gestureEnabled={false}
-                        stackViewStyle={{ backgroundColor: 'white' }}
+                        stackViewStyle={{ backgroundColor: 'rgba(245, 245, 245,1)' }}
                     >
                         {
                             Object.keys(routes).map(

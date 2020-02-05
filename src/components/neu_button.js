@@ -24,7 +24,7 @@ export default class  NeuButton extends Component {
             <TouchableOpacity
                 disabled={this.props.disabled}
                 activeOpacity={this.props.noPressedState ? 0.7 : 0.9}
-                style={{width:this.props.width||'100%' }} onPress={() => {
+                style={{width:this.props.width||'100%',opacity:this.props.disabled?0.5:1 }} onPress={() => {
 
                     if (this.props.noPressedState === true) {
                         if (typeof this.props.onPress === 'function') { this.props.onPress(); }

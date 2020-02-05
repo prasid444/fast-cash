@@ -24,8 +24,7 @@ export default class NeuUnpressedView extends Component {
         )
     }
 }
-
-const styles = {
+const styles=StyleSheet.create({
     container: {
         padding: 7,
         width: '100%',
@@ -55,4 +54,4 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center'
     }
-}
+})

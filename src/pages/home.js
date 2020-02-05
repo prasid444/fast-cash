@@ -15,7 +15,9 @@ import QRCode from 'react-native-qrcode-svg';
 class HomePage extends Component {
   render() {
     return (
-      <Container>
+      <Container style={{
+        backgroundColor:'inherit'
+      }}>
           <View style={{
               display:'flex',
               flexDirection:'column',
