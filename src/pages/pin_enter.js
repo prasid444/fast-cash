@@ -57,13 +57,14 @@ class PinEnterPage extends Component {
         }} contentContainerStyle={{
             display:'flex',
             flexDirection:'column',
-            // height:'100%',
+            height:'100%',
             justifyContent:'space-between',
             // flex:1,
             padding:24,
             overflow:'scroll'
             // backgroundColor:'red'
         }}>
+          <Text></Text>
         {/* <Text style={{
             fontSize:50,
             fontWeight:'100'

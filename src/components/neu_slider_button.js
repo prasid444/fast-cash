@@ -21,7 +21,8 @@ class NeuSliderButton extends Component {
         <Slider
         childrenContainer={{display: 'flex',flex:1 }}
         onEndReached={() => {
-          alert('Attention', 'onEndReached!');
+          // alert('Attention', 'onEndReached!');
+          typeof this.props.onEndReached=='function'&&this.props.onEndReached()
         }}
         containerStyle={{
           margin: 8,

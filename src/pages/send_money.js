@@ -14,19 +14,32 @@ import NeuButton from '../components/neu_button';
 import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import NeuSliderButton from '../components/neu_slider_button';
+import BasicHeader from '../components/basic_header';
 
 class SendMoneyPage extends Component {
   constructor(props) {
     super(props)
   
+    let location=this.props.location||{};
+    let location_state=location.state||{};
+    let selected_contact=location_state.selected_contact||{};
+    // this.setState({selectedUser:selected_contact})
+
+    console.log("this state",this.state)
+    console.log("this selected",location_state)
     this.state = {
-       send_amount:"00.00"
+       send_amount:"00.00",
+       selectedUser:selected_contact
     }
+    
   }
   
   render() {
-    const {send_amount}=this.state;
-    return (<Container>
+    const {send_amount,selectedUser}=this.state;
+    return (<Container style={{
+        backgroundColor: 'inherit',
+    }}>
+        <BasicHeader/>
         <View style={{
             display:'flex',
             flexDirection:'column',
@@ -38,24 +51,6 @@ class SendMoneyPage extends Component {
         <View style={{
             display:'flex',
             flexDirection:'row',
-            // backgroundColor:'red'
-        }}>
-            <NeuButton width={80} style={{
-            width:'100%',
-            borderRadius:40,
-            backgroundColor:'white'
-          }}  noPressedState={true} onPress={()=>{
-              this.props.history.goBack()
-
-          }}>
-              <Icon style={{
-                  opacity:0.4
-              }} name='ios-arrow-back' type='Ionicons'/>
-          </NeuButton>
-        </View>
-        <View style={{
-            display:'flex',
-            flexDirection:'row',
             justifyContent:'center'
         }}>
             <Text style={{
@@ -63,14 +58,14 @@ class SendMoneyPage extends Component {
             }}>To : </Text>
             <Text style={{
                 fontWeight:'bold'
-            }}>Anuj Poudel</Text>
+        }}>{selectedUser.name}</Text>
         </View>
         <View style={{
             display:'flex',
             flexDirection:'row',
             justifyContent:'center',
             alignItems:'center',
-            paddingTop:40,
+            paddingTop:16,
             flexWrap:'nowrap',
             overflow:'hidden'
         }}>
@@ -114,7 +109,9 @@ class SendMoneyPage extends Component {
          flexDirection:'row',
         //  justifyContent:'center',
      }}>
-    <NeuSliderButton/>
+    <NeuSliderButton onEndReached={()=>{
+        this.props.history.push('/transactiondetails')
+    }}/>
      {/* <NeuButton  noPressedState={true}   width={'80%'} style={{ height: 80,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           alert("I was pressed")
         }}>

@@ -10,9 +10,12 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, Text, Container } from 'native-base';
+import { View, Text, Container, ListItem, List,Left,Thumbnail,Body,Right } from 'native-base';
 import Contacts from "react-native-contacts";
 import { Platform,PermissionsAndroid } from 'react-native';
+import BasicHeader from '../components/basic_header';
+import NeuInput from '../components/neu_input';
+import { ScrollView } from 'react-native';
 
 const getAvatarInitials = textString => {
     if (!textString) return "";
@@ -46,7 +49,7 @@ class ContactListPage extends Component {
           if (err === "denied") {
             console.warn("Permission to access contacts was denied");
           } else {
-              console.log("contacts are",contacts)
+              // console.log("contacts are",contacts)
             this.setState({ contacts });
           }
         });
@@ -91,20 +94,87 @@ class ContactListPage extends Component {
 
     
   render() {
+    const {contacts,searchPlaceholder}=this.state;
     return (
-      <Container>
+      <Container style={{
+        backgroundColor:'inherit'
+      }}>
+        <BasicHeader bosdy={<Text style={{
+          opacity:0.8,
+          fontSize:24,
+          fontWeight:'100',
+          width:'100%',
+          textAlign:'center'
+        }}>Contact List</Text>}/>
           <View style={{
                display:'flex',
                flexDirection:'column',
-               justifyContent:'space-between',
+              //  justifyContent:'space-between',
                flex:1,
           }}>
-              <View></View>
-              <View></View>
-              <View>
-                
+            <NeuInput
+            placeholder={searchPlaceholder}
+            onChange={(text)=>{
+              this.search(text)
+            }}
+            />
+             
+            <ScrollView style={{flex:1}} >
+          {this.state.contacts.map(contact => {
+            let phoneNumbers=contact.phoneNumbers||[];
+            let firstPhone=phoneNumbers[0]||{};
+            return (
+              <ListItem onPress={()=>{
+                this.props.history.push({
+                  pathname: '/send_money',
+                  state: {
+                    selected_contact:{
+                    name:contact.givenName+contact.familyName,
+                    number:firstPhone.number
+                  }
+                  },
+                })
+              }}  key={contact.recordID}>
+              {/* <Left>
+                <Thumbnail source={contact.hasThumbnail?{ uri: contact.thumbnailPath }: undefined} />
+              </Left> */}
+              <Body>
+              <Text>{contact.givenName} {contact.familyName}</Text>
+            <Text note>{firstPhone.number}</Text>
+              </Body>
+              {/* <Right>
+                 <Text note>3:43 pm</Text> 
+              </Right> */}
+            </ListItem>
 
-              </View>
+              // <ListItem
+              //   leftElement={
+              //     <Avatar
+              //       img={
+              //         contact.hasThumbnail
+              //           ? { uri: contact.thumbnailPath }
+              //           : undefined
+              //       }
+              //       placeholder={getAvatarInitials(
+              //         `${contact.givenName} ${contact.familyName}`
+              //       )}
+              //       width={40}
+              //       height={40}
+              //     />
+              //   }
+              //   key={contact.recordID}
+              //   title={`${contact.givenName} ${contact.familyName}`}
+              //   description={`${contact.company}`}
+              //   onPress={() => Contacts.openExistingContact(contact, () => {})}
+              //   onDelete={() =>
+              //     Contacts.deleteContact(contact, () => {
+              //       this.loadContacts();
+              //     })
+              //   }
+              // />
+            );
+          })}
+        </ScrollView>
           </View>
       </Container>
     );

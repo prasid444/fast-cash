@@ -111,8 +111,8 @@ class HomePage extends Component {
                     width:'50%'
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
-          alert("I was pressed")
-        //   this.props.history.push('/contacts')
+          // alert("I was pressed")
+          this.props.history.push('/contacts')
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>
         </NeuButton>

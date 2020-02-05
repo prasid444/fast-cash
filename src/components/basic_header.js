@@ -18,7 +18,7 @@ class BasicHeader extends Component {
           justifyContent: 'space-between',
           alignItems:'center'
         }}>
-          <View>
+          <View style={{flex:1}}>
             {!this.props.no_back&&
             <NeuButton width={80} style={{
               width:'100%',
@@ -34,8 +34,8 @@ class BasicHeader extends Component {
             </NeuButton>
            }
            </View>
-        <View>{this.props.body}</View>
-        <View>{this.props.right}</View>
+        <View style={{flex:1}}>{this.props.body}</View>
+        <View style={{flex:1}}>{this.props.right}</View>
       </View>
     );
   }

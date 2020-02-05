@@ -9,7 +9,7 @@ import QrScannerPage from './pages/qr_scanner';
 import PinEnterPage from './pages/pin_enter';
 import TransactionDetail from './pages/transaction_detail';
 
-export const defaultRoute='/home';
+export const defaultRoute='/landing';
 export const defaultWorkspaceRoute='/workspaces';
 export const defaultHomepageRoute='/homes'
 

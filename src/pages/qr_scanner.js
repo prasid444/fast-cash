@@ -135,7 +135,12 @@ class QrScannerPage extends Component {
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          this.props.history.push('/transactiondetails')
+          this.props.history.push({
+            pathname:'/send_money',
+            state:{
+              selected_contact:selectedUser
+            }
+          })
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>
         </NeuButton>
