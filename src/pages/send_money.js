@@ -15,7 +15,14 @@ import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import NeuSliderButton from '../components/neu_slider_button';
 import BasicHeader from '../components/basic_header';
+import { withDomains, RESTExecutor } from '../lib/domain';
+import { Toast } from 'native-base';
 
+const transaction={
+    "mpin": "string",
+  "receiver_phone_number": "string",
+  "transaction_amount": 0
+}
 class SendMoneyPage extends Component {
   constructor(props) {
     super(props)
@@ -31,6 +38,16 @@ class SendMoneyPage extends Component {
        send_amount:"00.00",
        selectedUser:selected_contact
     }
+
+    this.send_money=RESTExecutor.post().config({
+        label:'create'
+    }).callbacks((success)=>{
+        Toast.show({
+            type:'success',
+            text:"Transaction Successfull."
+        })
+    }).connect(props.domains.transaction);
+
     
   }
   
@@ -58,7 +75,7 @@ class SendMoneyPage extends Component {
             }}>To : </Text>
             <Text style={{
                 fontWeight:'bold'
-        }}>{selectedUser.name}</Text>
+        }}>{selectedUser.number}</Text>
         </View>
         <View style={{
             display:'flex',
@@ -96,7 +113,9 @@ class SendMoneyPage extends Component {
             }}>1,100.00</Text>
         </View>
         <View>
-        <NeuKeypad maxLength={6} onChange={(keys)=>{
+        <NeuKeypad 
+        hasDot
+        maxLength={6} onChange={(keys)=>{
           this.setState({
             send_amount:keys
           })
@@ -110,7 +129,21 @@ class SendMoneyPage extends Component {
         //  justifyContent:'center',
      }}>
     <NeuSliderButton onEndReached={()=>{
-        this.props.history.push('/transactiondetails')
+        if(!selectedUser.number||send_amount==""){
+            Toast.show({
+                type:"danger",
+                text:"User and amount required"
+            });
+            return;
+
+        }else{
+        this.send_money.execute({
+            "mpin": "1111",
+            "receiver_phone_number": selectedUser.number,
+            "transaction_amount": parseFloat(send_amount)
+        });
+        }
+        // this.props.history.push('/transactiondetails')
     }}/>
      {/* <NeuButton  noPressedState={true}   width={'80%'} style={{ height: 80,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           alert("I was pressed")
@@ -126,4 +159,4 @@ class SendMoneyPage extends Component {
   }
 }
 
-export default SendMoneyPage;
+export default withDomains(SendMoneyPage,"transaction");

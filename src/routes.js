@@ -8,10 +8,11 @@ import ContactListPage from './pages/contacts_list';
 import QrScannerPage from './pages/qr_scanner';
 import PinEnterPage from './pages/pin_enter';
 import TransactionDetail from './pages/transaction_detail';
+import TransactionListPage from './pages/transaction_list';
 
 export const defaultRoute='/landing';
 export const defaultWorkspaceRoute='/workspaces';
-export const defaultHomepageRoute='/homes'
+export const defaultHomepageRoute='/home'
 
 export default {
   '/landing': {
@@ -41,5 +42,9 @@ export default {
   '/transactiondetails':{
     requireAuth:false,
     component:TransactionDetail
+  },
+  '/transactionlist':{
+    requireAuth:false,
+    component:TransactionListPage
   }
 };

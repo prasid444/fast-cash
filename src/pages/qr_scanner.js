@@ -58,32 +58,58 @@ class QrScannerPage extends Component {
           display:'flex',
           flexDirection:'column',
           justifyContent:'space-between',
-          flex:1,
-          
+          flex:1,          
       }}>
       <View style={{
           display:'flex',
           flexDirection:'column',
-          alignItems:'center'
+          alignItems:'center',
+          flex:1,
+          justifyContent:'space-between'
       }}>
-          <View style={{
-              width:200,
-              height:200,
-              borderRadius:100,
-              backgroundColor:'red',
-              overflow:'hidden'
+        <View></View>
+        <View style={{
+          display:'flex',
+          // backgroundColor:'red',
+          flex:1,
+          flexDirection:'column',
+          justifyContent:'center'
+        }}>
+        <View style={{
+              width:300,
+              height:300,
+              borderRadius:150,
+              // backgroundColor:'red',
+              overflow:'hidden',
+              // flex:1
           }}>
-              <QRCodeScanner
-            //   showMarker
+            <View style={{
+               display:'flex',
+               flexDirection:'row',
+               justifyContent:'center',
+               backgroundColor:'#ddd',
+               flex:1,
+               alignItems:'center',
+               overflow:'hidden',
+               textAlign:'center'
+            }}>
+              {/* <Text>Hys</Text> */}
+          <QRCodeScanner
+              showMarker
               cameraStyle={{
-                  width:200,
-                  height:200,
-                  borderRadius:100
+                  width:300,
+                  height:300,
+                  borderRadius:150
               }}
         onRead={this.onSuccess}
         // flashMode={QRCodeScanner.con}
       />
+            </View>
+              
           </View>
+        
+        </View>
+        
           <View style={{
               display:'flex',
               flexDirection:'row',
@@ -133,7 +159,9 @@ class QrScannerPage extends Component {
                 <View style={{
                     width:'50%'
                 }}>
-            <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
+            <NeuButton noPressedState={true}   
+            disabled={!(selectedUser&&selectedUser.number)}
+            width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
           this.props.history.push({
             pathname:'/send_money',

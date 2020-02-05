@@ -1,3 +1,13 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-alert */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
+
 import jwtDecode from 'jwt-decode';
 
 export default APP_CONFIG = {
@@ -5,7 +15,7 @@ export default APP_CONFIG = {
   target: 'react-native',
   network: {
     // base_url: 'http://159.89.175.245',
-    base_url: 'http://159.89.175.245:3000/api/v1.0',
+    base_url: 'http://ec2-3-15-164-7.us-east-2.compute.amazonaws.com:8080',
     // base_url:'http://192.168.2.116:5061/api/v1.0',
     response_formatter: api_response_formatter,
   },
@@ -25,7 +35,7 @@ export default APP_CONFIG = {
       domain_name: 'appAuth',
       cache_for_seconds: 60 * 60,
       url: {
-        auth_url: () => '/login',
+        auth_url: () => '/auth/otp',
         refresh_url: () => '/refreshtoken'
       }
     },

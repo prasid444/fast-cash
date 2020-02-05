@@ -9,6 +9,20 @@ const networkDomains = {
       detail:({params:{workspace_id,transaction_id}})=>`/workspaces/${workspace_id}/transactions/${transaction_id}`
     },
   },
+  transaction:{
+    url:{
+      list:()=>`/api/v1/transactions`,
+      create:()=>`/api/v1/transaction`,
+      receiver_decision:()=>`/api/v1/receiver_transaction_decision`,
+      sender_decision:()=>`/api/v1/sender_transaction_decision`
+    }
+  },
+  user:{
+    url:{
+      user_detail:()=>`/api/v1/user`,
+      login_signup:()=>`/auth/login`
+    }
+  },
   category: {
     cache_for_seconds:1 * 60 * 60,
     url: {
@@ -32,11 +46,6 @@ const networkDomains = {
       recent_transactions: ({identifier}) =>
         `/workspaces/${identifier}/transactions`,
     },
-  },
-  user: {
-      url: {
-        signup:()=>'/signup'
-      }
   },
 };
 

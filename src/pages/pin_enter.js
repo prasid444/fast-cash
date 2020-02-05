@@ -15,14 +15,21 @@ import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import { Toast } from 'native-base';
 import { ScrollView } from 'react-native';
+import { withDomains } from '../lib/domain';
 
 class PinEnterPage extends Component {
   constructor(props) {
     super(props)
   
+
+    let location = this.props.location || {};
+    let location_state = location.state || {};
+    let transaction_detail = location_state.transaction || {};
+
     this.state = {
-       pressedKeys:"",
-       remainingTime:30
+       pressedKeys:location_state.user_pin||"",
+       remainingTime:30,
+       userPhone:location_state.user_number
     }
 
     this.startCounting()
@@ -45,7 +52,11 @@ class PinEnterPage extends Component {
   }
 
   render() {
-    const {pressedKeys,remainingTime}=this.state;
+    const {pressedKeys,remainingTime,userPhone}=this.state;
+    let {authenticator}=this.props;
+    console.log("auth",authenticator);
+    let auth_resp=authenticator.response();
+
     return (
     <Container style={{
       backgroundColor:'inherit',
@@ -77,7 +88,7 @@ class PinEnterPage extends Component {
             fontWeight:'500',
             fontSize:18,
             marginTop:6,
-        }}>+94 333 444 5555</Text>
+        }}>{userPhone}</Text>
         <View style={{
           display:'flex',
           flexDirection:'row',
@@ -148,9 +159,15 @@ class PinEnterPage extends Component {
          flexDirection:'row',
          justifyContent:'center',
      }}>
-     <NeuButton  noPressedState={true}   width={'80%'} style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
+     <NeuButton  noPressedState={true}   
+     disabled={auth_resp.fetching}
+     width={'80%'} style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
         //   alert("I was pressed")
-        this.props.history.push('/home')
+        // this.props.history.push('/home')
+        authenticator.login({
+          otp:pressedKeys,
+          phone_number:userPhone
+        })
         }}>
           <Text style={{ opacity: 0.9 }}>CONTINUE</Text>
         </NeuButton>
@@ -161,4 +178,4 @@ class PinEnterPage extends Component {
   }
 }
 
-export default PinEnterPage;
+export default withDomains(PinEnterPage,"appAuth");

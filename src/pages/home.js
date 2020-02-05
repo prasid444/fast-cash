@@ -11,13 +11,68 @@ import React, { Component } from 'react';
 import { View, Text, Container, Content,Icon } from 'native-base';
 import NeuButton from '../components/neu_button';
 import QRCode from 'react-native-qrcode-svg';
+import BasicHeader from '../components/basic_header';
+import { withDomains, RESTExecutor } from '../lib/domain';
+import { Spinner } from 'native-base';
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       user_data:{}
+    }
+    // console.log("props",this.props);
+    // this.props.authenticator.persistTokens({
+    //   access_token:"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwY2U0ODBmMy1iODZlLTQ5MmItODMwOS1iODk5MGJkZDc3MmMiLCJyb2xlcyI6IiIsImlhdCI6MTU4MDkxNTAzMiwiZXhwIjoxNTgxNzc5MDMyfQ.JdfXA4l_FtQOwP4HA3MC87CK1gl8cn2hDvSGc8u37ypacFEyIsMeZmBF0dHENQLxcArufJ3jio9XDiA4SUKMAA"
+    // });
+    // console.log("TOKEN",this.props.authenticator.getTokens())
+    
+    this.get_user=RESTExecutor.list().config({
+      label:'user_detail'
+    }).callbacks((success)=>{
+      console.log("success",success)
+      this.setState({
+        user_data:success.result
+      })
+    }).connect(props.domains.user);
+
+    this.get_user.execute()
+  }
+  
   render() {
+    let get_user_resp=this.get_user.response();
+    let user_data=get_user_resp.result||{};
+    // const {user_data}=this.state;
+    // console.log("user data",get_user_resp)
+
     return (
       <Container style={{
         backgroundColor:'inherit'
       }}>
+        <BasicHeader no_back right={
+          <View style={{
+            display:'flex',
+            // flex:1,
+            flexDirection:'row',
+            justifyContent:'flex-end',
+            width:'100%',
+            // backgroundColor:'red'
+          }}>
+          <NeuButton width={80} style={{
+            width:'100%',
+            borderRadius:40,
+            backgroundColor:'white'
+          }}  noPressedState={true} onPress={()=>{
+              this.props.history.push('/transactionlist')
+
+          }}>
+              <Icon style={{
+                  opacity:0.4
+              }} name='md-settings' type='Ionicons'/>
+          </NeuButton></View>
+
+        }/>
           <View style={{
               display:'flex',
               flexDirection:'column',
@@ -40,26 +95,43 @@ class HomePage extends Component {
                       justifyContent:'center',
                       alignItems:'center',
                   }}>
+                    {user_data.phone_number?
                        <QRCode
                         value={JSON.stringify({
-                            name:"Anuj Poudel",
-                            number:"+9779860167527"
+                            // name:"Anuj ijjjh",
+                            number:user_data.phone_number
                         })}
                         size={160}
                         backgroundColor='white'
                         color='black'/>
+                        :
+                        <Spinner />
+                      }
                   </View>
-
-                  <Text style={{
+                  
+                  <View style={{
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'center',
+                    alignItems:'baseline'
+                  }}>
+                    <Text style={{
                       textAlign:'center',
                       opacity:0.7,
                       fontWeight:'600'
                   }}>Your Balance</Text>
+                  <Text style={{
+                      textAlign:'center',
+                      opacity:0.5,
+                      fontWeight:'500',
+                      fontSize:8
+                  }}> ( Click To Expand )</Text>
+                  </View>
                   <View style={{
                       display:'flex',
                       flexDirection:'row',
                       justifyContent:'center',
-                      alignItems:'baseline',
+                      alignItems:'center',
                       marginTop:12
                   }}>
                       <Text style={{
@@ -70,7 +142,7 @@ class HomePage extends Component {
                     opacity:0.7,
                     fontWeight:'300',
                     fontSize:60
-                }}>00.00</Text>
+                  }}>{user_data.current_balance||"00.00"}</Text>
                   </View>
               </View>
               <View style={{
@@ -112,7 +184,16 @@ class HomePage extends Component {
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          this.props.history.push('/contacts')
+          // this.props.history.push('/contacts')
+          this.props.history.push({
+            pathname:"/send_money",
+            state:{
+              selected_contact:{
+                number:"+9779849933272"
+              }
+            }
+          })
+
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>
         </NeuButton>
@@ -127,4 +208,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default withDomains(HomePage,"user");

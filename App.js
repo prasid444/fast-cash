@@ -25,6 +25,9 @@ let { dev, target, network, auth,workspace } = APP_CONFIG;
 
 // console.log("pre building holder")
 
+console.disableYellowBox = true;
+
+
 const domainHolder = new DomainHolder(
     {
       development_mode: dev,
