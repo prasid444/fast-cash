@@ -10,7 +10,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, Text, Container, ListItem, List,Left,Thumbnail,Body,Right } from 'native-base';
+import { View, Text, Container, ListItem, List,Left,Thumbnail,Body,Right, Content } from 'native-base';
 import Contacts from "react-native-contacts";
 import { Platform,PermissionsAndroid } from 'react-native';
 import BasicHeader from '../components/basic_header';
@@ -118,9 +118,34 @@ class ContactListPage extends Component {
               this.search(text)
             }}
             />
-             
-            <ScrollView style={{flex:1}} >
-          {this.state.contacts.map(contact => {
+             <Content>
+            <List style={{flex:1,height:'100%'}}
+            
+            dataArray={this.state.contacts}
+            renderRow={(contact)=>{
+              let phoneNumbers=contact.phoneNumbers||[];
+            let firstPhone=phoneNumbers[0]||{};
+            return (
+              <ListItem onPress={()=>{
+                this.props.history.push({
+                  pathname: '/send_money',
+                  state: {
+                    selected_contact:{
+                    name:""+contact.givenName?contact.givenName:""+" "+contact.familyName?contact.familyName:"",
+                    number:firstPhone.number
+                  }
+                  },
+                })
+              }}  key={contact.recordID}>
+              <Body>
+              <Text>{contact.givenName} {contact.familyName}</Text>
+            <Text note>{firstPhone.number}</Text>
+              </Body>
+            </ListItem>)
+            }}
+
+            >
+          {/* {this.state.contacts.map(contact => {
             let phoneNumbers=contact.phoneNumbers||[];
             let firstPhone=phoneNumbers[0]||{};
             return (
@@ -135,46 +160,40 @@ class ContactListPage extends Component {
                   },
                 })
               }}  key={contact.recordID}>
-              {/* <Left>
-                <Thumbnail source={contact.hasThumbnail?{ uri: contact.thumbnailPath }: undefined} />
-              </Left> */}
               <Body>
               <Text>{contact.givenName} {contact.familyName}</Text>
             <Text note>{firstPhone.number}</Text>
               </Body>
-              {/* <Right>
-                 <Text note>3:43 pm</Text> 
-              </Right> */}
-            </ListItem>
-
-              // <ListItem
-              //   leftElement={
-              //     <Avatar
-              //       img={
-              //         contact.hasThumbnail
-              //           ? { uri: contact.thumbnailPath }
-              //           : undefined
-              //       }
-              //       placeholder={getAvatarInitials(
-              //         `${contact.givenName} ${contact.familyName}`
-              //       )}
-              //       width={40}
-              //       height={40}
-              //     />
-              //   }
-              //   key={contact.recordID}
-              //   title={`${contact.givenName} ${contact.familyName}`}
-              //   description={`${contact.company}`}
-              //   onPress={() => Contacts.openExistingContact(contact, () => {})}
-              //   onDelete={() =>
-              //     Contacts.deleteContact(contact, () => {
-              //       this.loadContacts();
-              //     })
-              //   }
-              // />
+            </ListItem> 
+               <ListItem
+                leftElement={
+                  <Avatar
+                    img={
+                      contact.hasThumbnail
+                        ? { uri: contact.thumbnailPath }
+                        : undefined
+                    }
+                    placeholder={getAvatarInitials(
+                      `${contact.givenName} ${contact.familyName}`
+                    )}
+                    width={40}
+                    height={40}
+                  />
+                }
+                key={contact.recordID}
+                title={`${contact.givenName} ${contact.familyName}`}
+                description={`${contact.company}`}
+                onPress={() => Contacts.openExistingContact(contact, () => {})}
+                onDelete={() =>
+                  Contacts.deleteContact(contact, () => {
+                    this.loadContacts();
+                  })
+                }
+              />
             );
-          })}
-        </ScrollView>
+          })}*/}
+        </List>
+        </Content>
           </View>
       </Container>
     );
