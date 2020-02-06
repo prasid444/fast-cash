@@ -14,6 +14,8 @@ import QRCode from 'react-native-qrcode-svg';
 import BasicHeader from '../components/basic_header';
 import { withDomains, RESTExecutor } from '../lib/domain';
 import { Spinner } from 'native-base';
+import { TouchableOpacity } from 'react-native';
+import { showErrorInToast } from '../lib/utils/util';
 
 class HomePage extends Component {
   constructor(props) {
@@ -26,18 +28,24 @@ class HomePage extends Component {
     // this.props.authenticator.persistTokens({
     //   access_token:"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwY2U0ODBmMy1iODZlLTQ5MmItODMwOS1iODk5MGJkZDc3MmMiLCJyb2xlcyI6IiIsImlhdCI6MTU4MDkxNTAzMiwiZXhwIjoxNTgxNzc5MDMyfQ.JdfXA4l_FtQOwP4HA3MC87CK1gl8cn2hDvSGc8u37ypacFEyIsMeZmBF0dHENQLxcArufJ3jio9XDiA4SUKMAA"
     // });
+    //  this.props.authenticator.logout()
     // console.log("TOKEN",this.props.authenticator.getTokens())
     
     this.get_user=RESTExecutor.list().config({
       label:'user_detail'
     }).callbacks((success)=>{
       console.log("success",success)
+      if(success.result.mpin_set==false){
+        this.props.history.push('/set_mpin')
+      }
       this.setState({
         user_data:success.result
       })
+    },(error)=>{
+      showErrorInToast(error)
     }).connect(props.domains.user);
 
-    this.get_user.execute()
+    this.get_user.execute({force:true})
   }
   
   render() {
@@ -64,7 +72,7 @@ class HomePage extends Component {
             borderRadius:40,
             backgroundColor:'white'
           }}  noPressedState={true} onPress={()=>{
-              this.props.history.push('/transactionlist')
+              this.props.history.push('/setting')
 
           }}>
               <Icon style={{
@@ -108,7 +116,7 @@ class HomePage extends Component {
                         <Spinner />
                       }
                   </View>
-                  
+                 
                   <View style={{
                     display:'flex',
                     flexDirection:'row',
@@ -127,6 +135,12 @@ class HomePage extends Component {
                       fontSize:8
                   }}> ( Click To Expand )</Text>
                   </View>
+                  <TouchableOpacity 
+                  // style={{backgroundColor:'red'}}
+                  onPress={()=>{
+              this.props.history.push('/transactionlist')
+
+          }}>
                   <View style={{
                       display:'flex',
                       flexDirection:'row',
@@ -144,6 +158,8 @@ class HomePage extends Component {
                     fontSize:60
                   }}>{user_data.current_balance||"00.00"}</Text>
                   </View>
+                  </TouchableOpacity>
+
               </View>
               <View style={{
                   display:'flex',
@@ -157,11 +173,11 @@ class HomePage extends Component {
                     width:100,
                     position:'absolute',
                     left:'50%',
-                    height:90,
+                    // height:100,
                     transform:[{ translateX: -50 },{translateY:-15}],
                     zIndex: 10,
                 }}>
-                    <NeuButton noPressedState={true}   width={'100%'} style={{ height: 90,backgroundColor:'white',borderRadius: 50}} onPress={() => {
+                    <NeuButton noPressedState={true}    style={{height:90,backgroundColor:'white',borderRadius: 45}} onPress={() => {
           // alert("I was pressed")
           this.props.history.push('/scan')
         }}>
@@ -174,7 +190,12 @@ class HomePage extends Component {
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          this.props.history.push('/send_money')
+          this.props.history.push({
+            pathname:'/contacts',
+            state:{
+              type:'REQUEST'
+            }
+        });
         }}>
           <Text style={{ opacity: 0.9 }}>Request</Text>
         </NeuButton>
@@ -184,15 +205,20 @@ class HomePage extends Component {
                 }}>
             <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          // this.props.history.push('/contacts')
           this.props.history.push({
-            pathname:"/send_money",
+            pathname:'/contacts',
             state:{
-              selected_contact:{
-                number:"+9779849933272"
-              }
+              type:'SENT'
             }
-          })
+        });
+          // this.props.history.push({
+          //   pathname:"/send_money",
+          //   state:{
+          //     selected_contact:{
+          //       number:"+9779849933272"
+          //     }
+          //   }
+          // })
 
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>

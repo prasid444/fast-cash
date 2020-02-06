@@ -22,7 +22,7 @@ class NeuInput extends React.Component{
             backgroundColor:'white',
             overflow: 'hidden',
         }}><Input style={{
-            width:'100%',
+            // width:'100%',
             paddingLeft:20,
             // backgroundColor:'red'
         }} 

@@ -32,9 +32,14 @@ class QrScannerPage extends Component {
         let user_data_string=e.data;
         try{
             let user_data=JSON.parse(user_data_string);
-            if(user_data.name&&user_data.number){
+            if(user_data.number&&typeof user_data.number==='string'){
+              let number=user_data.number.slice(user_data.number.length - 10);
+              let code=user_data.number.substring(0,user_data.number.length - 10)
               this.setState({
-                selectedUser:user_data
+                selectedUser:{
+                  number:number,
+                  code:code
+                }
               })
             }else throw new Error("Not valid QR")
         }catch(e){
@@ -107,14 +112,20 @@ class QrScannerPage extends Component {
             </View>
               
           </View>
-        
+          
         </View>
-        
+        <Text style={{
+              opacity: 0.3,
+              width:'100%',
+              textAlign:'center',
+              // backgroundColor:'red'
+            }}>Scan QR code of your friend profile.</Text>
           <View style={{
               display:'flex',
               flexDirection:'row',
               justifyContent:'center'
           }}>
+            
             {selectedUser&&selectedUser.name&&<React.Fragment>
               <Text style={{
                 fontWeight:'200'
@@ -149,9 +160,17 @@ class QrScannerPage extends Component {
                 <View style={{
                     width:'50%'
                 }}>
-            <NeuButton noPressedState={true}   width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
+            <NeuButton noPressedState={true}   
+            disabled={!(selectedUser&&selectedUser.number)}
+            width={'100%'} style={{ height: 60,backgroundColor:'white',borderRadius: 50}} onPress={() => {
           // alert("I was pressed")
-          this.props.history.push('/send_money')
+          // this.props.history.push('/send_money')
+          this.props.history.push({
+            pathname:'/request_money',
+            state:{
+              selected_contact:selectedUser
+            }
+          });
         }}>
           <Text style={{ opacity: 0.9 }}>Request</Text>
         </NeuButton>
@@ -168,7 +187,7 @@ class QrScannerPage extends Component {
             state:{
               selected_contact:selectedUser
             }
-          })
+          });
         }}>
           <Text style={{ opacity: 0.9 }}>Send</Text>
         </NeuButton>

@@ -9,6 +9,10 @@ import QrScannerPage from './pages/qr_scanner';
 import PinEnterPage from './pages/pin_enter';
 import TransactionDetail from './pages/transaction_detail';
 import TransactionListPage from './pages/transaction_list';
+import ReceiveMoneyPage from './pages/request_money';
+import MPINSetupPage from './pages/mpin_setup';
+import SettingPage from './pages/setting_page';
+import MPinEnterPage from './pages/mpin_enter';
 
 export const defaultRoute='/landing';
 export const defaultWorkspaceRoute='/workspaces';
@@ -19,32 +23,48 @@ export default {
     requireAuth: false,
     component: LoginPage,
   },
-  '/home':{
-    requireAuth: false,
-    component: HomePage,
-  },
-  '/send_money':{
-    requireAuth: false,
-    component: SendMoneyPage,
-  },
-  '/contacts':{
-    requireAuth: false,
-    component: ContactListPage,
-  },
-  '/scan':{
-    requireAuth:false,
-    component:QrScannerPage
-  },
   '/pin-enter':{
     requireAuth:false,
     component:PinEnterPage
   },
+  '/home':{
+    requireAuth: true,
+    component: HomePage,
+  },
+  '/send_money':{
+    requireAuth: true,
+    component: SendMoneyPage,
+  },
+  '/request_money':{
+    requireAuth: true,
+    component: ReceiveMoneyPage,
+  },
+  '/confirm-transaction':{
+    requireAuth: true,
+    component: MPinEnterPage,
+  },
+  '/contacts':{
+    requireAuth: true,
+    component: ContactListPage,
+  },
+  '/scan':{
+    requireAuth:true,
+    component:QrScannerPage
+  },
   '/transactiondetails':{
-    requireAuth:false,
+    requireAuth:true,
     component:TransactionDetail
   },
   '/transactionlist':{
-    requireAuth:false,
+    requireAuth:true,
     component:TransactionListPage
+  },
+  '/set_mpin':{
+    requireAuth:true,
+    component:MPINSetupPage
+  },
+  '/setting':{
+    requireAuth:true,
+    component:SettingPage
   }
 };

@@ -9,14 +9,14 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, Text, Container, Content, Icon, Spinner } from 'native-base';
+import { View, Text, Container, Content, Icon } from 'native-base';
 import NeuButton from '../components/neu_button';
 import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import NeuSliderButton from '../components/neu_slider_button';
 import BasicHeader from '../components/basic_header';
 import { withDomains, RESTExecutor } from '../lib/domain';
-import { Toast } from 'native-base';
+import { Toast,Spinner } from 'native-base';
 import { showErrorInToast, country_list } from '../lib/utils/util';
 import NeuDropdown from '../components/neu_dropdown';
 
@@ -25,10 +25,11 @@ const transaction={
   "receiver_phone_number": "string",
   "transaction_amount": 0
 }
+
 const AMOUNT_STEP=0;
 const MPIN_STEP=1;
 
-class SendMoneyPage extends Component {
+class ReceiveMoneyPage extends Component {
   constructor(props) {
     super(props)
   
@@ -47,11 +48,11 @@ class SendMoneyPage extends Component {
     }
 
     this.send_money=RESTExecutor.post().config({
-        label:'create'
+        label:'request'
     }).callbacks((success)=>{
         Toast.show({
             type:'success',
-            text:"Transaction Successfull."
+            text:"Transaction Request Successfull."
         });
         this.props.history.push({
             pathname: '/transactiondetails',
@@ -60,16 +61,10 @@ class SendMoneyPage extends Component {
             }
           });
     },(error)=>{
-        showErrorInToast(error)
+        showErrorInToast(error);
     }).connect(props.domains.transaction);
 
-    this.get_user=RESTExecutor.list().config({
-        label:'user_detail'
-      }).callbacks((success)=>{
-      },(error)=>{
-        showErrorInToast(error)
-      }).connect(props.domains.user);
-
+    
   }
 
   stateUpdater = ({
@@ -98,8 +93,7 @@ class SendMoneyPage extends Component {
   render() {
     const {send_amount,selectedUser,step,mpin_value}=this.state;
     let send_money_resp=this.send_money.response();
-    let get_user_resp=this.get_user.response();
-    let user_data=get_user_resp.result||{};
+
     return (<Container style={{
         backgroundColor: 'inherit',
     }}>
@@ -119,7 +113,7 @@ class SendMoneyPage extends Component {
         }}>
             <Text style={{
                 fontWeight:'200'
-            }}>To : </Text>
+            }}>From : </Text>
             <Text style={{
                 fontWeight:'bold'
         }}>{selectedUser.number}</Text>
@@ -140,7 +134,7 @@ class SendMoneyPage extends Component {
           placeholder="ZIP CODE"
           keyText='dial_code'
           labelText='dial_code'
-          width={'40%'} style={{
+          width={'35%'} style={{
             width:'100%',
             borderRadius:10
           }}  noPressedState={true} 
@@ -187,7 +181,7 @@ class SendMoneyPage extends Component {
 
             <Text style={{
                 fontWeight:'bold',
-            }}>{user_data.current_balance}</Text>
+            }}>1,100.00</Text>
         </View>
         </React.Fragment>}
         {step==MPIN_STEP&&<React.Fragment>
@@ -247,11 +241,9 @@ class SendMoneyPage extends Component {
         </View>
         </React.Fragment>
         }
-      
-        <View>
-        {step==AMOUNT_STEP&&
+       <View>
+       {step==AMOUNT_STEP&&
         <NeuKeypad 
-        key='amount'
         hasDot
         maxLength={6} onChange={(keys)=>{
           this.setState({
@@ -261,14 +253,11 @@ class SendMoneyPage extends Component {
         }}/>}
         {step==MPIN_STEP&&
         <NeuKeypad 
-        key='mpin'
-        maxLength={4} 
-        onChange={(keys)=>{
+        maxLength={4} onChange={(keys)=>{
           this.setState({
             mpin_value:keys
           })
         }}/>}
-
         </View>
      <View style={{
          display:'flex',
@@ -276,17 +265,17 @@ class SendMoneyPage extends Component {
          flexDirection:'row',
          justifyContent:'center',
      }}>
-    
-    {send_money_resp.fetching?
+         {send_money_resp.fetching?
     <Spinner />
     :
     <NeuSliderButton 
     style={{
         width:'70%'
     }}
-    placeholder={`SlIDE TO ${step==AMOUNT_STEP?"SEND":"CONFIRM"}`}
+        placeholder={`SlIDE TO ${step==AMOUNT_STEP?"REQUEST":"CONFIRM"}`}
+
     onEndReached={()=>{
-        if(!selectedUser.number||send_amount==""||send_amount=="00.00"){
+        if(!selectedUser.number||send_amount==""||send_amount=="00.00"||!selectedUser.code){
             Toast.show({
                 type:"danger",
                 text:"Phone Number, Country code and amount required"
@@ -294,32 +283,31 @@ class SendMoneyPage extends Component {
             return;
 
         }else{
-        this.props.history.push({
-            pathname:'/confirm-transaction',
-            state:{
-                amount:send_amount,
-                selectedUser:selectedUser,
-                type:'SEND'
-            }
-        });
-
-        // if(step==AMOUNT_STEP){
-        //     this.setState({
-        //         step:MPIN_STEP
-        //     });
-        // }else{
-        //     if(mpin_value==""){
-        //         Toast.show({
-        //             type:"danger",
-        //             text:"MPIN is required for transaction"
+            this.props.history.push({
+                pathname:'/confirm-transaction',
+                state:{
+                    amount:send_amount,
+                    selectedUser:selectedUser,
+                    type:'REQUEST'
+                }
+            });
+        //     if(step==AMOUNT_STEP){
+        //         this.setState({
+        //             step:MPIN_STEP
         //         });
-        //         return;
-        //     }
-        //     this.send_money.execute({
-        //         "mpin": mpin_value,
-        //         "receiver_phone_number":`${selectedUser.code}${selectedUser.number}`,
-        //         "transaction_amount": parseFloat(send_amount)
-        //     });
+        //     }else{
+        //         if(mpin_value==""){
+        //             Toast.show({
+        //                 type:"danger",
+        //                 text:"MPIN is required for transaction"
+        //             });
+        //             return;
+        //         }
+        // this.send_money.execute({
+        //     "mpin": "1111",
+        //     "sender_phone_number": `${selectedUser.code}${selectedUser.number}`,
+        //     "transaction_amount": parseFloat(send_amount)
+        // });
         // }
         }
         // this.props.history.push('/transactiondetails')
@@ -327,11 +315,10 @@ class SendMoneyPage extends Component {
         </View>
 
         </View>
-    
     </Container>
      
     );
   }
 }
 
-export default withDomains(SendMoneyPage,"transaction","user");
+export default ReceiveMoneyPage=withDomains(ReceiveMoneyPage,"transaction");

@@ -18,6 +18,10 @@ import { Text } from 'native-base';
 class NeuSliderButton extends Component {
   render() {
     return (
+      <View style={{
+        width:'100%',
+        ...this.props.style
+      }}>
         <Slider
         childrenContainer={{display: 'flex',flex:1 }}
         onEndReached={() => {
@@ -31,6 +35,7 @@ class NeuSliderButton extends Component {
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor:'white'
         }}
         sliderElement={
           <View
@@ -44,8 +49,9 @@ class NeuSliderButton extends Component {
           />
         }
       >
-        <Text>{'SLIDE TO SEND'}</Text>
+        <Text style={{fontSize:10}}>{this.props.placeholder}</Text>
       </Slider>
+      </View>
     );
   }
 }

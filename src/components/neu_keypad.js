@@ -37,7 +37,9 @@ class NeuKeypad extends Component {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
-          flexWrap:'wrap'
+          flexWrap:'wrap',
+          opacity:this.props.hidden?0:1,
+          
         }}>
         {Array(10)
           .fill('0')
@@ -54,7 +56,7 @@ class NeuKeypad extends Component {
                   paddingTop:8
                 }}
               >
-                  <NeuButton noPressedState={true} width={'80%'} onPress={()=>{
+                  <NeuButton disabled={this.props.hidden} noPressedState={true} width={'80%'} onPress={()=>{
                       // alert(index);
                       if(typeof this.props.maxLength=='number'&&pressedKeys.length<this.props.maxLength){
                         let decimals=pressedKeys.split(".")[1]||"";
@@ -101,7 +103,7 @@ class NeuKeypad extends Component {
                 }}
               >
                 {this.props.hasDot&&
-                <NeuButton noPressedState={true} width={'80%'} onPress={()=>{
+                <NeuButton disabled={this.props.hidden} noPressedState={true} width={'80%'} onPress={()=>{
                     if(typeof this.props.maxLength=='number'&&pressedKeys.length<this.props.maxLength&&!pressedKeys.includes(".")){
                     
                     typeof this.props.onChange==='function'&&this.props.onChange(`${pressedKeys}.`)
@@ -131,8 +133,8 @@ class NeuKeypad extends Component {
                   paddingTop:8
                 }}
               >
-                  <NeuButton noPressedState={true} width={'80%'} onPress={()=>{
-                    if(typeof this.props.maxLength=='number'&&pressedKeys.length<=this.props.maxLength){
+                  <NeuButton disabled={this.props.hidden} noPressedState={true} width={'80%'} onPress={()=>{
+                    if(typeof this.props.maxLength=='number'&&pressedKeys.length<this.props.maxLength){
                       let decimals=pressedKeys.split(".")[1]||"";
                       if(this.props.hasDot&&decimals.length<2){
                         typeof this.props.onChange==='function'&&this.props.onChange(`${pressedKeys}0`)
@@ -169,7 +171,7 @@ class NeuKeypad extends Component {
                   paddingTop:8
                 }}
               >
-                  <NeuButton noPressedState={true} width={'80%'} onPress={()=>{
+                  <NeuButton disabled={this.props.hidden} noPressedState={true} width={'80%'} onPress={()=>{
                     typeof this.props.onChange==='function'&&this.props.onChange(`${pressedKeys}`.slice(0,-1))
                     this.setState({
                       pressedKeys:`${pressedKeys}`.slice(0,-1)

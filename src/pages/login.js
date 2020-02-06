@@ -9,17 +9,18 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, Text, Container, Content } from 'native-base';
+import { View, Text, Container, Content, Spinner } from 'native-base';
 import NeuButton from '../components/neu_button';
 import NeuKeypad from '../components/neu_keypad';
 import NeuView from '../components/neu_view';
 import NeuPressedView from '../components/neu_pressedview';
 import NeuUnpressedView from '../components/neu_unpressedview';
 import { RESTExecutor, withDomains } from '../lib/domain';
-import { showErrorInToast } from '../lib/utils/util';
+import { showErrorInToast, country_list } from '../lib/utils/util';
 import { Toast } from 'native-base';
 import {defaultHomepageRoute} from '../routes';
 import { Redirect } from 'react-router-native';
+import NeuDropdown from '../components/neu_dropdown';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class LoginPage extends Component {
   
     this.state = {
        pressedKeys:"",
-       showKeyPad:false
+       showKeyPad:false,
+       selectedCode:"_00"
     }
     this.login_signup=RESTExecutor.post().config({
       label:'login_signup'
@@ -39,7 +41,8 @@ class LoginPage extends Component {
         this.props.history.push({
           pathname:'/pin-enter',
           state:{
-            user_pin:success.result.otp
+            user_pin:success.result.otp,
+            user_number:`${this.state.selectedCode}${this.state.pressedKeys}`
           }
         });
     },(error)=>{
@@ -48,7 +51,7 @@ class LoginPage extends Component {
   }
   
   render() {
-    const {pressedKeys,showKeyPad}=this.state;
+    const {pressedKeys,showKeyPad,selectedCode}=this.state;
     let login_signup_resp=this.login_signup.response();
     const {authenticator}=this.props;
     if(authenticator.isAuthenticated()){
@@ -81,22 +84,25 @@ class LoginPage extends Component {
           flexDirection:'row',
           flexWrap:'nowrap',
           width:'100%',
-          paddingLeft:'5%',
-          paddingRight:'5%'
+          paddingLeft:'0%',
+          paddingRight:'0%'
           // backgroundColor:'red'
         }}>
-          <NeuButton width={'30%'} style={{
+          <NeuDropdown 
+          value={selectedCode}
+          options={country_list}
+          keyText='dial_code'
+          labelText='dial_code'
+          width={'40%'} style={{
             width:'100%',
-            borderRadius:10
-          }}  noPressedState={true} onPress={()=>{
-
-          }}>
-            
-            <Text style={{
-              opacity:0.6,
-            }}>+977</Text>
-          </NeuButton>
-          <NeuButton width={'70%'} style={{
+            borderRadius:10,
+            // backgroundColor:'red'
+          }}  noPressedState={true} 
+          onChange={(value)=>{
+            this.setState({selectedCode:value})
+          }}
+          />
+          <NeuButton width={'60%'} style={{
             width:'100%',
             borderRadius:10
           }}  noPressedState={true} onPress={()=>{
@@ -120,13 +126,16 @@ class LoginPage extends Component {
             paddingRight:8
             }}>{pressedKeys}</Text>}</NeuButton>
         </View>
-        {true&&
-        <NeuKeypad maxLength={10} onChange={(keys)=>{
+        
+        <NeuKeypad
+        hidden={!showKeyPad}
+         maxLength={10} 
+        onChange={(keys)=>{
           this.setState({
             pressedKeys:keys
           })
 
-        }}/>}
+        }}/>
         </View>
      <View style={{
          display:'flex',
@@ -134,25 +143,27 @@ class LoginPage extends Component {
          flexDirection:'row',
          justifyContent:'center',
      }}>
+      {login_signup_resp.fetching?
+      <Spinner/>:
      <NeuButton disabled={login_signup_resp.fetching}  noPressedState={true}   width={'80%'} style={{ backgroundColor:'white',borderRadius: 50}} onPress={() => {
 
           if(pressedKeys.length!=10){
             Toast.show({type:'danger',text:"Please Enter Valid Phone Number"})
           }else{
-            this.props.history.push({
-              pathname:'/pin-enter',
-              state:{
-                user_pin:"467141",
-                user_number:`+977${pressedKeys}`
-              }
-            });
-            // this.login_signup.execute({
-            //   "phone_number":`+977${pressedKeys}`
+            // this.props.history.push({
+            //   pathname:'/pin-enter',
+            //   state:{
+            //     user_pin:"467141",
+            //     user_number:`+977${pressedKeys}`
+            //   }
             // });
+            this.login_signup.execute({
+              "phone_number":`${selectedCode}${pressedKeys}`
+            });
           }
         }}>
           <Text style={{ opacity: 0.9 }}>CONTINUE</Text>
-        </NeuButton>
+        </NeuButton>}
         </View>
 
         </Content>

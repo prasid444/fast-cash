@@ -9,14 +9,16 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, Text, Container, Content, Icon } from 'native-base';
+import { View, Text, Container, Content, Icon, Spinner } from 'native-base';
 import NeuButton from '../components/neu_button';
 import NeuUnpressedView from '../components/neu_unpressedview';
 import BasicHeader from '../components/basic_header';
 import { RESTExecutor, withDomains } from '../lib/domain';
 import { Toast } from 'native-base';
+import { showErrorInToast } from '../lib/utils/util';
+import moment from 'moment';
 
-const status_colors={
+export const status_colors={
     "PENDING":"blue",
     "COMPLETED":"green",
     "REJECTED":"red"
@@ -44,6 +46,8 @@ class TransactionDetail extends Component {
                 type:'success',
                 text:"Transaction Accepted"
             })
+        },(error)=>{
+            showErrorInToast(error)
         }).connect(props.domains.transaction);
 
         this.accept_request=RESTExecutor.post().config({
@@ -56,6 +60,8 @@ class TransactionDetail extends Component {
                 type:'success',
                 text:"Request Accepted"
             })
+        },(error)=>{
+            showErrorInToast(error);
         }).connect(props.domains.transaction);
 
     }
@@ -147,8 +153,8 @@ class TransactionDetail extends Component {
                                     opacity: 0.5,
 
                                 }}>
-                                    <Text>Received at</Text>
-                                    <Text>Jan 2,2020 4:00PM</Text>
+                                    <Text>Completed at</Text>
+                            <Text>{moment(transaction_detail.transaction_accept_time).isValid()?moment(transaction_detail.transaction_accept_time).format('lll'):""}</Text>
                                 </View>
                                 <View style={{
                                     display: 'flex',
@@ -173,8 +179,10 @@ class TransactionDetail extends Component {
                         flexDirection: 'row',
                         width: '100%',
                         // height:4,
-                        // backgroundColor:'red'
+                        justifyContent:'center'
                     }}>
+                        {accept_money_resp.fetching?<Spinner/>:
+                        <React.Fragment>
                         <View style={{
                             width: '50%'
                         }}>
@@ -208,7 +216,7 @@ class TransactionDetail extends Component {
                                 
                             </NeuButton>
                         </View>
-
+                        </React.Fragment>}
                     </View>
                     }
 
@@ -219,9 +227,12 @@ class TransactionDetail extends Component {
                         display: 'flex',
                         flexDirection: 'row',
                         width: '100%',
+                        justifyContent:'center',
                         // height:4,
                         // backgroundColor:'red'
                     }}>
+                        {accept_request_resp.fetching?<Spinner/>:
+                        <React.Fragment>
                         <View style={{
                             width: '50%'
                         }}>
@@ -233,7 +244,7 @@ class TransactionDetail extends Component {
                                     "id_transaction": transaction_detail.id_transaction
                                 });
                             }}>
-                                <Text style={{ opacity: 0.9,color:'white' }}>REJECT request</Text>
+                                <Text style={{ opacity: 0.9,color:'white' }}>REJECT</Text>
                             </NeuButton>
                         </View>
                         <View style={{
@@ -243,7 +254,7 @@ class TransactionDetail extends Component {
                             disabled={accept_request_resp.fetching}
                             noPressedState={true} width={'100%'} style={{ height: 60, backgroundColor: 'green', borderRadius: 50 }} onPress={() => {
                                  this.accept_request.execute({
-                                    "accept": false,
+                                    "accept": true,
                                     "id_transaction": transaction_detail.id_transaction
                                 });
 
@@ -251,7 +262,7 @@ class TransactionDetail extends Component {
                                 <Text style={{ opacity: 0.9,color:'white' }}>Accept</Text>
                             </NeuButton>
                         </View>
-
+                        </React.Fragment>}
                     </View>
                     }
                </View>
