@@ -17,10 +17,11 @@ import { RESTExecutor, withDomains } from '../lib/domain';
 import { Toast } from 'native-base';
 import { showErrorInToast } from '../lib/utils/util';
 import moment from 'moment';
+import { defaultHomepageRoute } from '../routes';
 
 export const status_colors={
     "PENDING":"blue",
-    "COMPLETED":"green",
+    "COMPLETED":"#52c41a",
     "REJECTED":"red"
 }
 class TransactionDetail extends Component {
@@ -77,7 +78,16 @@ class TransactionDetail extends Component {
             backgroundColor: 'inherit',
         }}>
             <BasicHeader
-                
+                bodyStyle={{flex:null}}
+                body={
+                  <Text style={{
+                    opacity: 1,
+                    width:'100%',
+                    textAlign:'center',
+                    fontSize:30,
+                    fontWeight:'600'
+                }}>Transaction Detail</Text>
+                }
             />
             <View style={{
                 display: 'flex',
@@ -86,13 +96,13 @@ class TransactionDetail extends Component {
                 flex: 1,
             }}>
                 <View>
-                <Text style={{
+                {/* <Text style={{
                     opacity: 1,
                     width:'100%',
                     textAlign:'center',
                     fontSize:40,
                     fontWeight:'bold'
-                }}>Transaction Detail</Text>
+                }}>Transaction Detail</Text> */}
                 </View>
                 <View>
                     <View style={{
@@ -203,7 +213,7 @@ class TransactionDetail extends Component {
                         }}>
                             <NeuButton 
                             disabled={accept_money_resp.fetching}
-                            noPressedState={true} width={'100%'} style={{ height: 60, backgroundColor: 'green', borderRadius: 50 }} onPress={() => {
+                            noPressedState={true} width={'100%'} style={{ height: 60, backgroundColor: '#52c41a', borderRadius: 50 }} onPress={() => {
                                 // alert("I was pressed")
                                 // this.props.history.push('/contacts');
                                 this.accept_money.execute({
@@ -252,7 +262,7 @@ class TransactionDetail extends Component {
                         }}>
                             <NeuButton 
                             disabled={accept_request_resp.fetching}
-                            noPressedState={true} width={'100%'} style={{ height: 60, backgroundColor: 'green', borderRadius: 50 }} onPress={() => {
+                            noPressedState={true} width={'100%'} style={{ height: 60, backgroundColor: '#52c41a', borderRadius: 50 }} onPress={() => {
                                  this.accept_request.execute({
                                     "accept": true,
                                     "id_transaction": transaction_detail.id_transaction
@@ -269,8 +279,9 @@ class TransactionDetail extends Component {
                 <View style={{
                     display: 'flex',
                     width: '100%',
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     justifyContent: 'center',
+                    alignItems:'center',
                     paddingBottom: 16
                 }}>
 
@@ -280,6 +291,15 @@ class TransactionDetail extends Component {
                         <View style={{ opacity: 0.6, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Icon name='error-outline' type='MaterialIcons' />
                             <Text style={{ marginLeft: 6 }}>Report an issue</Text>
+                        </View>
+                    </NeuButton>
+
+                    <NeuButton noPressedState={true} width={'80%'} style={{ backgroundColor: '#52c41a', borderRadius: 50 }} onPress={() => {
+                        this.props.history.replace(defaultHomepageRoute)
+                    }}>
+                        <View style={{ opacity: 1, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',color:'white' }}>
+                            <Icon name='home' type='AntDesign' style={{color:'white'}} />
+                            <Text style={{ marginLeft: 6 ,color:'white'}}>Go To Home</Text>
                         </View>
                     </NeuButton>
                 </View>

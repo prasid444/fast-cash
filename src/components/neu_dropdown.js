@@ -30,6 +30,7 @@ class NeuDropdown extends Component {
          
         }}>
         <Picker
+        renderToHardwareTextureAndroid
               mode='dialog'
               renderHeader={(backAction)=>{
                 return <Header searchBar style={{ backgroundColor: '#f44242' }}>

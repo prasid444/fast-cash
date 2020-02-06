@@ -31,7 +31,7 @@ class NeuSliderButton extends Component {
         containerStyle={{
           margin: 8,
           width:'100%',
-          borderRadius: 10,
+          borderRadius: 20,
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
@@ -40,16 +40,16 @@ class NeuSliderButton extends Component {
         sliderElement={
           <View
             style={{
-              width: 50,
+              width: 40,
               margin: 4,
-              borderRadius: 5,
-              height: 50,
+              borderRadius: 20,
+              height: 40,
               backgroundColor: '#ddd',
             }}
           />
         }
       >
-        <Text style={{fontSize:10}}>{this.props.placeholder}</Text>
+        <Text style={{fontSize:12,opacity: 0.6,}}>{this.props.placeholder}</Text>
       </Slider>
       </View>
     );

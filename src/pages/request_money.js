@@ -64,6 +64,13 @@ class ReceiveMoneyPage extends Component {
         showErrorInToast(error);
     }).connect(props.domains.transaction);
 
+
+    this.get_user=RESTExecutor.list().config({
+        label:'user_detail'
+      }).callbacks((success)=>{
+      },(error)=>{
+        showErrorInToast(error)
+      }).connect(props.domains.user);
     
   }
 
@@ -94,22 +101,34 @@ class ReceiveMoneyPage extends Component {
     const {send_amount,selectedUser,step,mpin_value}=this.state;
     let send_money_resp=this.send_money.response();
 
+    let get_user_resp=this.get_user.response();
+    let user_data=get_user_resp.result||{};
+
     return (<Container style={{
         backgroundColor: 'inherit',
+        flex:1
     }}>
         <BasicHeader/>
-        <View style={{
-            display:'flex',
+        <Content style={{
+            flex:1,
+            height:'100%'
+
+        }}  
+        contentContainerStyle={{
+            // display:'flex',
             flexDirection:'column',
             justifyContent:'space-between',
             flex:1,
             padding:24,
-            // backgroundColor:'red'
-        }}>
+            // backgroundColor:'red',
+            paddingTop:0
+        }}
+        >
         <View style={{
             display:'flex',
             flexDirection:'row',
-            justifyContent:'center'
+            justifyContent:'center',
+            // backgroundColor:'green'
         }}>
             <Text style={{
                 fontWeight:'200'
@@ -123,7 +142,7 @@ class ReceiveMoneyPage extends Component {
             flexDirection:'row',
             justifyContent:'center',
             width:'100%',
-            alignItems:'center'
+            alignItems:'center',
         }}>
             <Text style={{
                 fontWeight:'200'
@@ -153,7 +172,7 @@ class ReceiveMoneyPage extends Component {
             flexDirection:'row',
             justifyContent:'center',
             alignItems:'center',
-            paddingTop:16,
+            paddingTop:4,
             flexWrap:'nowrap',
             overflow:'hidden'
         }}>
@@ -181,7 +200,7 @@ class ReceiveMoneyPage extends Component {
 
             <Text style={{
                 fontWeight:'bold',
-            }}>1,100.00</Text>
+            }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
         </View>
         </React.Fragment>}
         {step==MPIN_STEP&&<React.Fragment>
@@ -314,11 +333,11 @@ class ReceiveMoneyPage extends Component {
     }}/>}
         </View>
 
-        </View>
+        </Content>
     </Container>
      
     );
   }
 }
 
-export default ReceiveMoneyPage=withDomains(ReceiveMoneyPage,"transaction");
+export default ReceiveMoneyPage=withDomains(ReceiveMoneyPage,"transaction","user");

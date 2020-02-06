@@ -61,7 +61,18 @@ class TransactionListPage extends Component {
     return (<Container style={{
         backgroundColor:'inherit'
     }}>
-        <BasicHeader/>
+        <BasicHeader
+        bodyStyle={{flex:null}}
+        body={
+          <Text style={{
+            opacity: 1,
+            width:'100%',
+            textAlign:'center',
+            fontSize:30,
+            fontWeight:'600'
+        }}>Transactions</Text>
+        }
+        />
         <Tabs
         tabBarUnderlineStyle={{borderBottomWidth:2,backgroundColor:'#ddd',borderColor:'#ddd'}}
         page={transaction_type=='sent'?0:1}

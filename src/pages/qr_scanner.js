@@ -63,7 +63,8 @@ class QrScannerPage extends Component {
           display:'flex',
           flexDirection:'column',
           justifyContent:'space-between',
-          flex:1,          
+          flex:1,  
+          paddingBottom:12        
       }}>
       <View style={{
           display:'flex',
@@ -100,7 +101,7 @@ class QrScannerPage extends Component {
             }}>
               {/* <Text>Hys</Text> */}
           <QRCodeScanner
-              showMarker
+              // showMarker
               cameraStyle={{
                   width:300,
                   height:300,

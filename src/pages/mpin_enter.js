@@ -43,14 +43,18 @@ class MPinEnterPage extends Component {
                 type:'success',
                 text:`${type=='SEND'?"Transaction":"Request"} Successfull.`
             });
-            this.props.history.push({
+            this.props.history.replace({
                 pathname: '/transactiondetails',
                 state: {
                   transaction:success.result.transaction
                 }
               });
         },(error)=>{
-            showErrorInToast(error)
+            showErrorInToast(error);
+            // this.setState({mpin_value:""})
+            try{
+                this.mpin_keyboard.reset()
+            }catch(e){}
         }).connect(props.domains.transaction);
 
     }
@@ -121,7 +125,7 @@ class MPinEnterPage extends Component {
         }}>
             <Text style={{
                 fontWeight:'200',
-            }}>Enter your mpin to confirm</Text>
+            }}>Enter your MPIN to confirm</Text>
             {/* <Text style={{
                 fontWeight:'200',
             }}>Rs. </Text>
@@ -134,6 +138,9 @@ class MPinEnterPage extends Component {
         <View>
         
         <NeuKeypad
+        onRef={(ref)=>{
+            this.mpin_keyboard=ref
+        }}
         key='mpin'
         maxLength={4} 
         onChange={(keys)=>{

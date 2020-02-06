@@ -16,9 +16,11 @@ class BasicHeader extends Component {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems:'center'
+          alignItems:'center',
+          paddingBottom:0,
+          paddingTop:0
         }}>
-          <View style={{flex:1}}>
+          <View style={{flex:1,...this.props.bodyStyle}}>
             {!this.props.no_back&&
             <NeuButton width={80} style={{
               width:'100%',
@@ -34,8 +36,8 @@ class BasicHeader extends Component {
             </NeuButton>
            }
            </View>
-        <View style={{flex:1}}>{this.props.body}</View>
-        <View style={{flex:1}}>{this.props.right}</View>
+        <View style={{flex:1,...this.props.bodyStyle}}>{this.props.body}</View>
+        <View style={{flex:1,...this.props.rightStyle}}>{this.props.right}</View>
       </View>
     );
   }

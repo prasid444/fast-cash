@@ -25,10 +25,13 @@ class MPINSetupPage extends Component {
     super(props)
   
 
-  
+    let location = this.props.location || {};
+    let location_state = location.state || {};
+
     this.state = {
        pressedKeys:"",
        remainingTime:30,
+       isChanging:location_state.isChanging
     }
 
 
@@ -43,6 +46,9 @@ class MPINSetupPage extends Component {
         this.props.history.push('/home')
     },(error)=>{
         showErrorInToast(error);
+        try{
+            this.mpin_keyboard.reset()
+        }catch(e){}
     }).connect(props.domains.user)
     // this.startCounting()
   }
@@ -64,7 +70,8 @@ class MPINSetupPage extends Component {
   }
 
   render() {
-    const {pressedKeys,remainingTime}=this.state;
+    const {pressedKeys,isChanging}=this.state;
+    let mpin_label=Array(pressedKeys.length).fill("*").join("");
 
     let mpin_set_resp=this.set_mpin.response()
     return (
@@ -93,7 +100,7 @@ class MPINSetupPage extends Component {
         <View>
         <Text style={{
             fontWeight:'100'
-        }}>Set the 4-digit code for further transactions:</Text>
+  }}>{isChanging?"Set new 4-digit code: ":"Set the 4-digit code for further transactions:"}</Text>
         {/* <Text style={{
             fontWeight:'500',
             fontSize:18,
@@ -129,14 +136,18 @@ class MPINSetupPage extends Component {
             }}>0000</Text>
             :
             <Text style={{
-            opacity:0.6,
+            opacity:1,
             width:'100%',
             textAlign:'center',
             paddingLeft:8,
             paddingRight:8
-            }}>{pressedKeys}</Text>}</NeuButton>
+            }}>{mpin_label}</Text>}</NeuButton>
         </View>
-        <NeuKeypad maxLength={4} onChange={(keys)=>{
+        <NeuKeypad maxLength={4} 
+        onRef={(ref)=>{
+            this.mpin_keyboard=ref
+        }}
+        onChange={(keys)=>{
           this.setState({
             pressedKeys:keys
           })

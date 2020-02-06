@@ -25,6 +25,13 @@ class NeuKeypad extends Component {
   onChange=(newValue)=>{
     typeof this.props.onChange==='function'&&this.props.onChange(newValue)
   }
+  reset=(value="")=>{
+    this.setState({
+      pressedKeys:value
+    },()=>{
+      typeof this.props.onChange==='function'&&this.props.onChange(value)
+    })
+  }
   
   render() {
     const {pressedKeys}=this.state;
@@ -200,6 +207,15 @@ class NeuKeypad extends Component {
           })}
       </View>
     );
+  }
+
+  componentDidMount(){
+    typeof this.props.onRef==='function'&&this.props.onRef(this)
+
+  }
+  componentWillUnmount(){
+    typeof this.props.onRef==='function'&&this.props.onRef(null)
+
   }
 }
 

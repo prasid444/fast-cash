@@ -110,7 +110,7 @@ class HomePage extends Component {
                             number:user_data.phone_number
                         })}
                         size={160}
-                        backgroundColor='white'
+                        backgroundColor='rgba(245, 245, 245,1)'
                         color='black'/>
                         :
                         <Spinner />
@@ -123,6 +123,7 @@ class HomePage extends Component {
                     justifyContent:'center',
                     alignItems:'baseline'
                   }}>
+                    <Text>
                     <Text style={{
                       textAlign:'center',
                       opacity:0.7,
@@ -134,6 +135,7 @@ class HomePage extends Component {
                       fontWeight:'500',
                       fontSize:8
                   }}> ( Click To Expand )</Text>
+                  </Text>
                   </View>
                   <TouchableOpacity 
                   // style={{backgroundColor:'red'}}
@@ -145,9 +147,10 @@ class HomePage extends Component {
                       display:'flex',
                       flexDirection:'row',
                       justifyContent:'center',
-                      alignItems:'center',
+                      alignItems:'baseline',
                       marginTop:12
                   }}>
+                    <Text>
                       <Text style={{
                       opacity:0.7,
                       fontWeight:'100',
@@ -155,8 +158,9 @@ class HomePage extends Component {
                   }}>Rs.</Text><Text style={{
                     opacity:0.7,
                     fontWeight:'300',
-                    fontSize:60
-                  }}>{user_data.current_balance||"00.00"}</Text>
+                    fontSize:50
+                  }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
+                  </Text>
                   </View>
                   </TouchableOpacity>
 

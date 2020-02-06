@@ -25,6 +25,25 @@ class SettingPage extends React.Component{
             <BasicHeader/>
             <Content>
             
+
+            <NeuButton  noPressedState={true}   
+            width={'100%'} 
+            style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
+                // alert("Logout");
+                // authenticator.logout()
+                this.props.history.push({
+                    pathname:'/set_mpin',
+                    state:{
+                        isChanging:true
+                    }
+                });
+        }}>
+            <View style={{ opacity: 0.6, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Icon name='lock-reset' type='MaterialCommunityIcons' />
+                            <Text style={{ marginLeft: 6 }}>Change MPIN</Text>
+            </View>
+        </NeuButton>
+
             <NeuButton  noPressedState={true}   
             width={'100%'} 
             style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
@@ -36,6 +55,7 @@ class SettingPage extends React.Component{
                             <Text style={{ marginLeft: 6 }}>Logout</Text>
             </View>
         </NeuButton>
+        
             </Content>
             </Container>
         )

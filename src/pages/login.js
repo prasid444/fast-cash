@@ -29,7 +29,7 @@ class LoginPage extends Component {
     this.state = {
        pressedKeys:"",
        showKeyPad:false,
-       selectedCode:"_00"
+       selectedCode:"+977"
     }
     this.login_signup=RESTExecutor.post().config({
       label:'login_signup'
@@ -59,6 +59,7 @@ class LoginPage extends Component {
        to={defaultHomepageRoute}
      />
     }
+    console.log("object",selectedCode)
 
     return (<Container>
         <Content contentContainerStyle={{

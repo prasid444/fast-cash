@@ -100,6 +100,7 @@ class SendMoneyPage extends Component {
     let send_money_resp=this.send_money.response();
     let get_user_resp=this.get_user.response();
     let user_data=get_user_resp.result||{};
+    console.log("user",user_data)
     return (<Container style={{
         backgroundColor: 'inherit',
     }}>
@@ -110,6 +111,7 @@ class SendMoneyPage extends Component {
             justifyContent:'space-between',
             flex:1,
             padding:24,
+            paddingTop:0
             // backgroundColor:'red'
         }}>
         <View style={{
@@ -159,7 +161,7 @@ class SendMoneyPage extends Component {
             flexDirection:'row',
             justifyContent:'center',
             alignItems:'center',
-            paddingTop:16,
+            paddingTop:4,
             flexWrap:'nowrap',
             overflow:'hidden'
         }}>
@@ -187,7 +189,7 @@ class SendMoneyPage extends Component {
 
             <Text style={{
                 fontWeight:'bold',
-            }}>{user_data.current_balance}</Text>
+            }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
         </View>
         </React.Fragment>}
         {step==MPIN_STEP&&<React.Fragment>
@@ -284,7 +286,7 @@ class SendMoneyPage extends Component {
     style={{
         width:'70%'
     }}
-    placeholder={`SlIDE TO ${step==AMOUNT_STEP?"SEND":"CONFIRM"}`}
+    placeholder={`SLIDE TO ${step==AMOUNT_STEP?"SEND":"CONFIRM"}`}
     onEndReached={()=>{
         if(!selectedUser.number||send_amount==""||send_amount=="00.00"){
             Toast.show({
