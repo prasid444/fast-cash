@@ -34,7 +34,7 @@ class PinEnterPage extends Component {
     this.state = {
        pressedKeys:location_state.user_pin||"",
        remainingTime:30,
-       userPhone:location_state.user_number||"+9779860167527"
+       userPhone:location_state.user_number||""
     }
 
     this.startCounting()
@@ -70,27 +70,19 @@ class PinEnterPage extends Component {
     return (
     <Container style={{
       backgroundColor:'inherit',
-      // flex:1
+      flex:1
     }}>
-        <Content style={{
-          // flex:1,
-          // overflow:'scroll'
-        }} contentContainerStyle={{
+
+        <View style={{
             display:'flex',
             flexDirection:'column',
             height:'100%',
             justifyContent:'space-between',
-            // flex:1,
+            flex:1,
             padding:24,
             overflow:'scroll'
             // backgroundColor:'red'
         }}>
-          {/* <Text></Text> */}
-        {/* <Text style={{
-            fontSize:50,
-            fontWeight:'100'
-        }}>Simple Cash</Text> */}
-        <View>
         <Text style={{
             fontWeight:'100',
             fontSize:14,
@@ -172,7 +164,6 @@ class PinEnterPage extends Component {
                 })
             }}><Text style={{color:status_colors['PENDING']}}>Resend</Text></TouchableOpacity>}
         </View>
-        </View>
         <View style={{
          display:'flex',
          width:'100%',
@@ -197,7 +188,7 @@ class PinEnterPage extends Component {
           <Text style={{ opacity: 0.9 }}>CONTINUE</Text>
         </NeuButton>}
         </View>
-        </Content>
+        </View>
     </Container>
     );
   }

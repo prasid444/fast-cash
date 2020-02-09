@@ -1,3 +1,13 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-alert */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
+
 import { RESTExecutor } from './networkDomain';
 import APP_CONFIG from '../../config';
 
@@ -15,7 +25,7 @@ class Authenticator extends RESTExecutor{
 
   persistTokens(data){
     this.domain.write('access_token', data.access_token, true);
-    this.domain.write('refresh_token', data.refresh_token, true);
+    // this.domain.write('refresh_token', data.refresh_token, true);
     this.domain.write('meta', data.meta, true);
   }
 
@@ -26,7 +36,7 @@ class Authenticator extends RESTExecutor{
   getTokens(){
     return {
       access_token: this.domain.read('access_token'),
-      refresh_token: this.domain.read('refresh_token'),
+      // refresh_token: this.domain.read('refresh_token'),
       meta: this.domain.read('meta'),
     };
   }
@@ -34,13 +44,19 @@ class Authenticator extends RESTExecutor{
   login(data,successCallback,errorCallback){
     this.callbacks(
       (resp) => {
+        console.log("1")
         let formatted_resp = this.auth_token_response_formatter(resp);
+        console.log("2")
         this.persistTokens(formatted_resp);
-        typeof this.onSuccess == 'function' && this.onSuccess(formatted_resp);
+        console.log("3")
+        // typeof this.onSuccess == 'function' && this.onSuccess(formatted_resp);
+        console.log("4")
         typeof successCallback=='function'&&successCallback(formatted_resp);
+        console.log("5")
       },(val,error)=>{
+        typeof this.onError == 'function' && this.onError(val,error);
         // this.onError(val,error);
-        console.log(typeof errorCallback,"error typoe")
+        // console.log(typeof errorCallback,"error typoe")
         typeof errorCallback=='function'&&errorCallback(val,error);
       }
      

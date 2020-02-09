@@ -58,7 +58,7 @@ class ReceiveMoneyPage extends Component {
         this.props.history.push({
             pathname: '/transactiondetails',
             state: {
-              transaction:success.result.transaction
+              transaction:{...success.result.transaction,own:false}
             }
           });
     },(error)=>{
@@ -107,25 +107,29 @@ class ReceiveMoneyPage extends Component {
 
     return (<Container style={{
         backgroundColor: 'inherit',
-        flex:1
     }}>
-        <BasicHeader/>
-        <Content style={{
-            flex:1,
-            height:'100%'
-
-        }}  
-        contentContainerStyle={{
-            // display:'flex',
-            flexDirection:'column',
-            justifyContent:'space-between',
-            flex:1,
-            padding:24,
-            // backgroundColor:'red',
-            paddingTop:0
-        }}
-        >
-        <View style={{
+         <View style={{
+              display:'flex',
+              flexDirection:'column',
+              justifyContent:'space-between',
+              flex:1,
+              overflow:'scroll',
+              padding:4,
+            //   backgroundColor:'red'
+          }}>
+       <BasicHeader
+       bodyStyle={{flex:null}}
+       body={
+         <Text style={{
+           width:'100%',
+           textAlign:'center',
+           fontSize:18,
+           fontWeight:'500',
+           opacity:0.8
+       }}>From : {selectedUser.number}</Text>
+       }
+       />
+        {/* <View style={{
             display:'flex',
             flexDirection:'row',
             justifyContent:'center',
@@ -137,7 +141,7 @@ class ReceiveMoneyPage extends Component {
             <Text style={{
                 fontWeight:'bold'
         }}>{selectedUser.number}</Text>
-        </View>
+        </View> */}
         <View style={{
             display:'flex',
             flexDirection:'row',
@@ -173,7 +177,7 @@ class ReceiveMoneyPage extends Component {
             flexDirection:'row',
             justifyContent:'center',
             alignItems:'center',
-            paddingTop:4,
+            // paddingTop:4,
             flexWrap:'nowrap',
             overflow:'hidden'
         }}>
@@ -183,7 +187,7 @@ class ReceiveMoneyPage extends Component {
             }}>Rs. </Text>
             <Text style={{
                 fontWeight:'400',
-                fontSize:60
+                fontSize:40
             }}>{send_amount}</Text>
         </View>
         <View style={{
@@ -204,63 +208,7 @@ class ReceiveMoneyPage extends Component {
             }}>{formatMoney(user_data.current_balance)}</Text>
         </View>
         </React.Fragment>}
-        {step==MPIN_STEP&&<React.Fragment>
-            <View style={{
-          display:'flex',
-          flexDirection:'row',
-          flexWrap:'nowrap',
-          width:'100%',
-          paddingLeft:'5%',
-          paddingRight:'5%',
-          alignItems:'center',
-          justifyContent:'center',
-          paddingTop:12,
-          paddingBottom:12
-          // backgroundColor:'red'
-        }}>
-          
-          <NeuButton width={'60%'} style={{
-            width:'100%',
-            borderRadius:30
-          }}  noPressedState={true} onPress={()=>{
-
-          }}>
-            {mpin_value.length==0?
-             <Text style={{
-              opacity:0.2,
-              width:'100%',
-              textAlign:'center',
-              paddingLeft:8,
-              paddingRight:8
-            }}>****</Text>
-            :
-            <Text style={{
-            opacity:0.6,
-            width:'100%',
-            textAlign:'center',
-            paddingLeft:8,
-            paddingRight:8
-            }}>{mpin_value}</Text>}</NeuButton>
-        </View>
-        <View style={{
-            display:'flex',
-            flexDirection:'row',
-            justifyContent:'center',
-            alignItems:'center',
-        }}>
-            <Text style={{
-                fontWeight:'200',
-            }}>Enter your mpin to confirm</Text>
-            {/* <Text style={{
-                fontWeight:'200',
-            }}>Rs. </Text>
-
-            <Text style={{
-                fontWeight:'bold',
-            }}>1,100.00</Text> */}
-        </View>
-        </React.Fragment>
-        }
+      
        <View>
        {step==AMOUNT_STEP&&
         <NeuKeypad 
@@ -334,7 +282,7 @@ class ReceiveMoneyPage extends Component {
     }}/>}
         </View>
 
-        </Content>
+        </View>
     </Container>
      
     );

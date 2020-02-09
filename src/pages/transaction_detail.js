@@ -34,6 +34,7 @@ class TransactionDetail extends Component {
         let location_state = location.state || {};
         let transaction_detail = location_state.transaction || {};
 
+        console.log("GOT TRANSACTION DETAIL",transaction_detail)
         this.state = {
             transaction_detail: transaction_detail
         }
@@ -273,7 +274,7 @@ class TransactionDetail extends Component {
                                                 //     "id_transaction": transaction_detail.id_transaction
                                                 // })
                                             }}>
-                                            <Text style={{ opacity: 0.9, color: 'white' }}>Reject</Text>
+                                            <Text style={{ opacity: 0.9, color: 'white' }}>Reject Mo</Text>
                                         </NeuButton>
                                     </View>
                                     <View style={{
@@ -325,7 +326,7 @@ class TransactionDetail extends Component {
                                                 //     "id_transaction": transaction_detail.id_transaction
                                                 // });
                                             }}>
-                                            <Text style={{ opacity: 0.9, color: 'white' }}>Reject</Text>
+                                            <Text style={{ opacity: 0.9, color: 'white' }}>Reject req</Text>
                                         </NeuButton>
                                     </View>
                                     <View style={{
