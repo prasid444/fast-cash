@@ -20,16 +20,7 @@ export default APP_CONFIG = {
     response_formatter: api_response_formatter,
   },
 
-  workspace: {
-    network: {
-      domain_name: 'workspace',
-      cache_for_seconds: 60 * 60,
-      url: {
-        detail:({identifier})=>`/workspaces/${identifier}`
-      }
-    },
-  },
-
+ 
   auth: {
     network: {
       domain_name: 'appAuth',

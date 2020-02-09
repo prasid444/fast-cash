@@ -47,7 +47,6 @@ class DomainWrapper extends Component{
       <this.props.wrapperComponent
         { ...this.props.wrappedComponentProps }
         authenticator={this.props.holder.authenticator}
-        workspace_handler={this.props.holder.workspace_handler}
         domains={this.domainProps}
         version={this.state.version}
       />

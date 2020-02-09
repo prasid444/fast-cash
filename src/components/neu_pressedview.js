@@ -25,7 +25,7 @@ export default class NeuPressedView extends Component {
     }
 }
 
-const styles = {
+const styles =StyleSheet.create({
     container: {
         width: '100%',
 
@@ -44,6 +44,7 @@ const styles = {
             width: 5,
             height: 5
         },
+        elevation:2
     },
     endShadow: {
         height: 65,
@@ -60,6 +61,7 @@ const styles = {
             height: -7
         },
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation:2
     }
-}
+})

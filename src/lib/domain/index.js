@@ -1,3 +1,14 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-alert */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
+
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -6,7 +17,6 @@ import { DomainProvider, withDomains } from './provider';
 import { NetworkDomain, RESTExecutor } from './networkDomain';
 import { WebPersistor, ReactNativePersistor } from './persistor';
 import Authenticator from './authenticator';
-import WorkspaceHandler from './workspace_handler'
 function createNetworkRequestMaker(network_config){
   let { base_url, response_formatter } = network_config;
 
@@ -50,13 +60,11 @@ class DomainHolder{
     target,
     network_config,
     auth_config,
-    workspace_config,
   })
   {
     this.development_mode = development_mode;
     this.target = target;
     this.auth_config = auth_config;
-    this.workspace_config = workspace_config;
 
     this.domains = {};
 
@@ -66,7 +74,6 @@ class DomainHolder{
 
     this.network_req_mkr = createNetworkRequestMaker(network_config);
     this.authenticator = new Authenticator(this.auth_config, this.initialize);
-    this.workspace_handler = new WorkspaceHandler(this.workspace_config, this.initialize);
   }
 
   _checkDomain(name){
@@ -75,23 +82,7 @@ class DomainHolder{
     }
   }
 
-  _buildWorkspace(persistor){
-    let domainName = this.workspace_config.network.domain_name;
-    if(!domainName){
-      domainName = 'workspace';
-    }
 
-    const workspaceDomain = NetworkDomain.create(
-      domainName,
-      this.workspace_config.network,
-      persistor,
-      this.network_req_mkr,
-      this.authenticator
-    );
-
-    this.workspace_handler.connect(workspaceDomain);
-    this.domains[domainName] = workspaceDomain;
-  }
 
   _buildAuth(persistor){
     let domainName = this.auth_config.network.domain_name;
@@ -122,7 +113,6 @@ class DomainHolder{
 
 
     this._buildAuth(persistor);
-    this._buildWorkspace(persistor)
 
     Object.keys(basic).map(
       (item) => {

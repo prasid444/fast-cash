@@ -20,7 +20,6 @@ import { Button } from 'native-base';
 import { Icon } from 'native-base';
 // import ListView from "deprecated-react-native-listview";
 
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
@@ -231,7 +230,7 @@ class ContactListPage extends Component {
                   pathname:type=="SENT"?'/send_money':'/request_money',
                   state: {
                     selected_contact:{
-                    code:number.substring(0,number.length-10),
+                    code:null,
                     number:number.slice(number.length-10)
                   }
                   },

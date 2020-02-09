@@ -14,6 +14,7 @@ import { View } from 'native-base';
 import Slider from './neu_slider';
 import { Image } from 'react-native';
 import { Text } from 'native-base';
+import NeuView from './neu_view';
 
 class NeuSliderButton extends Component {
   render() {
@@ -22,6 +23,9 @@ class NeuSliderButton extends Component {
         width:'100%',
         ...this.props.style
       }}>
+        <NeuView pressed={false} style={{
+          borderRadius:30
+        }}>
         <Slider
         childrenContainer={{display: 'flex',flex:1 }}
         onEndReached={() => {
@@ -29,28 +33,38 @@ class NeuSliderButton extends Component {
           typeof this.props.onEndReached=='function'&&this.props.onEndReached()
         }}
         containerStyle={{
-          margin: 8,
+          // margin: 8,
           width:'100%',
           borderRadius: 20,
-          overflow: 'hidden',
-          alignItems: 'center',
+          // overflow: 'hidden',
+          // alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor:'white'
+          // backgroundColor:'white'
         }}
         sliderElement={
-          <View
-            style={{
-              width: 40,
-              margin: 4,
-              borderRadius: 20,
-              height: 40,
-              backgroundColor: '#ddd',
-            }}
-          />
+          <NeuView pressed={false} style={{
+            borderRadius:40,
+            height:50,
+            width:35,
+            backgroundColor:'white'
+            
+          }}>
+
+          </NeuView>
+          // <View
+          //   style={{
+          //     width: 40,
+          //     margin: 4,
+          //     borderRadius: 20,
+          //     height: 40,
+          //     backgroundColor: '#ddd',
+          //   }}
+          // />
         }
       >
         <Text style={{fontSize:12,opacity: 0.6,}}>{this.props.placeholder}</Text>
       </Slider>
+      </NeuView>
       </View>
     );
   }

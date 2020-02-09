@@ -19,6 +19,7 @@ import { withDomains, RESTExecutor } from '../lib/domain';
 import { Toast,Spinner } from 'native-base';
 import { showErrorInToast, country_list } from '../lib/utils/util';
 import NeuDropdown from '../components/neu_dropdown';
+import { formatMoney } from '../lib/utils/util';
 
 const transaction={
     "mpin": "string",
@@ -153,7 +154,7 @@ class ReceiveMoneyPage extends Component {
           placeholder="ZIP CODE"
           keyText='dial_code'
           labelText='dial_code'
-          width={'35%'} style={{
+          width={'40%'} style={{
             width:'100%',
             borderRadius:10
           }}  noPressedState={true} 
@@ -200,7 +201,7 @@ class ReceiveMoneyPage extends Component {
 
             <Text style={{
                 fontWeight:'bold',
-            }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
+            }}>{formatMoney(user_data.current_balance)}</Text>
         </View>
         </React.Fragment>}
         {step==MPIN_STEP&&<React.Fragment>

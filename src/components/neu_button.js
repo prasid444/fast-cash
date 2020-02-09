@@ -40,7 +40,9 @@ export default class  NeuButton extends Component {
                         }
                         else {
                             if (typeof this.props.onPress === 'function') { this.props.onPress(); }
-                            else { throw new Error("You should define onPress prop for the NeuButton") }
+                            else { 
+                                // throw new Error("You should define onPress prop for the NeuButton") 
+                            }
                         }
 
 

@@ -19,6 +19,7 @@ import { withDomains, RESTExecutor } from '../lib/domain';
 import { Toast } from 'native-base';
 import { showErrorInToast, country_list } from '../lib/utils/util';
 import NeuDropdown from '../components/neu_dropdown';
+import { formatMoney } from '../lib/utils/util';
 
 const transaction={
     "mpin": "string",
@@ -137,6 +138,8 @@ class SendMoneyPage extends Component {
                 fontWeight:'200'
             }}>Country Code : </Text>
         <NeuDropdown
+        // pressed={true}
+        // noPressedState={true}
           value={selectedUser&&selectedUser.code}
           options={country_list}
           placeholder="ZIP CODE"
@@ -189,7 +192,7 @@ class SendMoneyPage extends Component {
 
             <Text style={{
                 fontWeight:'bold',
-            }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
+            }}>{formatMoney(user_data.current_balance)}</Text>
         </View>
         </React.Fragment>}
         {step==MPIN_STEP&&<React.Fragment>

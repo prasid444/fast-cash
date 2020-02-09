@@ -6,7 +6,7 @@ import Stack from 'react-router-native-stack';
 
 import Screen from './components/screen';
 import { withDomains } from './lib/domain';
-import { defaultRoute, defaultWorkspaceRoute, defaultHomepageRoute } from './routes';
+import { defaultRoute, defaultHomepageRoute } from './routes';
 import { BackHandler } from 'react-native';
 
 const SAFE_AREA_MARGIN = 8;
@@ -27,7 +27,7 @@ class _StackWrapper extends Component {
     }
     handleBackButton() {
         let pathName = this.props.history.location.pathname;
-        if (pathName == '/' || pathName == defaultRoute || pathName == defaultWorkspaceRoute||pathName==defaultHomepageRoute) {
+        if (pathName == '/' || pathName == defaultRoute||pathName==defaultHomepageRoute) {
             BackHandler.exitApp();
         } else {
             this.props.history.goBack();
@@ -48,13 +48,16 @@ class App extends Component {
 
     render() {
         let { routes } = this.props;
-        let { authenticator, workspace_handler } = this.props;
+        let { authenticator } = this.props;
         return (
             <NativeRouter >
                 <StackWrapper>
                     <Stack
                         // gestureEnabled={false}
-                        stackViewStyle={{ backgroundColor: 'rgba(245, 245, 245,1)' }}
+                        stackViewStyle={{ 
+                            // backgroundColor: 'rgba(245, 245, 245,1)',
+                            backgroundColor:'white'
+                         }}
                     >
                         {
                             Object.keys(routes).map(
@@ -69,7 +72,6 @@ class App extends Component {
                                             component={createScreen({
                                                 Config: config,
                                                 authenticator: authenticator,
-                                                workspace_handler: workspace_handler,
                                                 all_config:routes
                                             })}
                                         />
@@ -82,7 +84,6 @@ class App extends Component {
                             component={createScreen({
                                 Config: routes[defaultRoute],
                                 authenticator: authenticator,
-                                workspace_handler: workspace_handler,
                                 all_config:routes
                             })}
                         />
@@ -93,9 +94,9 @@ class App extends Component {
     }
 }
 
-export default withDomains(App, 'appAuth','workspace');
+export default withDomains(App, 'appAuth');
 
-const createScreen = ({ Config, authenticator, workspace_handler,all_config }) => {
+const createScreen = ({ Config, authenticator,all_config }) => {
     if (!Config) {
         throw new Error('Invalid Config!');
     }
@@ -106,12 +107,6 @@ const createScreen = ({ Config, authenticator, workspace_handler,all_config }) =
                 // Config=all_config[defaultRoute];
                 return (
                     <Redirect to={defaultRoute} />
-                );
-            }
-            if (Config.requireWorkspace === true && !workspace_handler.isSelected()) {
-                // Config=all_config[defaultHomepageRoute];
-                return (
-                    <Redirect to={defaultWorkspaceRoute} />
                 );
             }
             return (

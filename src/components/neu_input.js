@@ -13,24 +13,26 @@ import React, { Component } from 'react'
 import { Text, View } from 'native-base'
 import NeuUnpressedView from './neu_unpressedview';
 import { Input } from 'native-base';
+import NeuView from './neu_view';
 
 
 class NeuInput extends React.Component{
     render(){
-        return <NeuUnpressedView style={{
+        return <NeuView
+        pressed={false}
+         style={{
             borderRadius: 20,
-            backgroundColor:'white',
-            overflow: 'hidden',
         }}><Input style={{
-            // width:'100%',
+            width:'100%',
             paddingLeft:20,
+            textAlign:'left'
             // backgroundColor:'red'
         }} 
-        placeholderTextColor="#ddd"
+        placeholderTextColor="#ffffff"
         onChangeText={this.props.onChange}
         value={this.props.value}
         placeholder={this.props.placeholder||""}/>
-        </NeuUnpressedView>
+        </NeuView>
     }
 }
 export default NeuInput

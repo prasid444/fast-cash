@@ -9,7 +9,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react';
-import { View, PanResponder, Animated } from 'react-native';
+import { View, PanResponder, Animated, Vibration } from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -62,6 +62,7 @@ export default class Slider extends Component {
   onEndReached = () => {
     this.canReachEnd && this.props.onEndReached();
     this.canReachEnd = false;
+    Vibration.vibrate(50)
     this.resetBar();
   };
 

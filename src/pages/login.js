@@ -61,14 +61,16 @@ class LoginPage extends Component {
     }
     console.log("object",selectedCode)
 
-    return (<Container>
+    return (<Container style={{
+      backgroundColor:'inherit'
+    }}>
         <Content contentContainerStyle={{
             display:'flex',
             flexDirection:'column',
             justifyContent:'space-between',
             flex:1,
             padding:24,
-            backgroundColor:'rgba(245, 245, 245,1)'
+            // backgroundColor:'rgba(245, 245, 245,1)'
         }}>
         <Text style={{
             fontSize:50,
@@ -90,6 +92,7 @@ class LoginPage extends Component {
           // backgroundColor:'red'
         }}>
           <NeuDropdown 
+          pressed={true}
           value={selectedCode}
           options={country_list}
           keyText='dial_code'
@@ -105,8 +108,12 @@ class LoginPage extends Component {
           />
           <NeuButton width={'60%'} style={{
             width:'100%',
-            borderRadius:10
-          }}  noPressedState={true} onPress={()=>{
+            borderRadius:20,
+            height:65
+          }}  
+          noPressedState={true} 
+          pressed={false}
+          onPress={()=>{
             this.setState({showKeyPad:true})
 
           }}>
@@ -138,6 +145,14 @@ class LoginPage extends Component {
 
         }}/>
         </View>
+
+        {/* <View style={{
+                display:'flex',
+                flexDirection:'row',
+                justifyContent:'center'
+              }}>
+              <NeuTest/>
+         </View> */}
      <View style={{
          display:'flex',
          width:'100%',

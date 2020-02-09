@@ -9,7 +9,7 @@
 
 import React from 'react';
 
-import ShareEXApp from './src/app';
+import SimpleCash from './src/app';
 import appRoutes, { defaultRoute, defaultWorkspaceRoute } from './src/routes';
 
 import { Root } from 'native-base';
@@ -49,10 +49,9 @@ class App extends React.Component {
   return (
     <DomainProvider holder={domainHolder}>
        <Root>
-       <ShareEXApp
+       <SimpleCash
       routes={appRoutes}
       defaultRoute={defaultRoute} // /landing,
-      defaultWorkspaceRoute={defaultWorkspaceRoute}
       />
       </Root>
   </DomainProvider>

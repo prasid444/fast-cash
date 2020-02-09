@@ -16,6 +16,9 @@ import { withDomains, RESTExecutor } from '../lib/domain';
 import { Spinner } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { showErrorInToast } from '../lib/utils/util';
+import { formatMoney } from '../lib/utils/util';
+import TransactionItem from '../components/transaction_item';
+import NeuView from '../components/neu_view';
 
 class HomePage extends Component {
   constructor(props) {
@@ -110,7 +113,7 @@ class HomePage extends Component {
                             number:user_data.phone_number
                         })}
                         size={160}
-                        backgroundColor='rgba(245, 245, 245,1)'
+                        backgroundColor='white'
                         color='black'/>
                         :
                         <Spinner />
@@ -159,12 +162,38 @@ class HomePage extends Component {
                     opacity:0.7,
                     fontWeight:'300',
                     fontSize:50
-                  }}>{(user_data.current_balance||0.00).toLocaleString()}</Text>
+                  }}>{formatMoney(user_data.current_balance)}</Text>
                   </Text>
                   </View>
                   </TouchableOpacity>
 
               </View>
+              {/* <View style={{
+                display:'flex',
+                flexDirection:'row',
+                justifyContent:'center',
+                width:'100%',
+                backgroundColor:'green'
+              }}>
+              <NeuButton
+                    pressed={false}
+                    onPress={()=>{
+
+                    }}
+                    noPressedState={true}
+                    style={{
+                        borderRadius: 20,
+                        backgroundColor:'red',
+                        width:20,
+                        height:35
+                    }}>
+                    <Icon style={{
+                        fontSize: 20,
+                        color:'white'
+                    }} name='triangle-up' type='Entypo' />
+                </NeuButton>
+              </View> */}
+              
               <View style={{
                   display:'flex',
                   flexDirection:'row',

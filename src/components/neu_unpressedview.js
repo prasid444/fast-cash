@@ -28,10 +28,10 @@ const styles=StyleSheet.create({
     container: {
         padding: 7,
         width: '100%',
-        paddingHorizontal: 14
+        paddingHorizontal: 14,
     },
     startShadow: {
-        height: 30,
+        height: 50,
         backgroundColor: '#e0e5ec',
         shadowColor: 'white',
         shadowRadius: 8,
@@ -39,10 +39,10 @@ const styles=StyleSheet.create({
         shadowOffset: {
             width: -9,
             height: -9
-        },
+        },elevation:2
     },
     endShadow: {
-        height: 30,
+        height: 50,
         backgroundColor: '#e0e5ec',
         shadowColor: '#a3b1c6',
         shadowRadius: 10,
@@ -52,6 +52,9 @@ const styles=StyleSheet.create({
             height: 9
         },
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation:2,
+        borderColor:'red',
+        borderWidth:0    
     }
 })

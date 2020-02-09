@@ -15,7 +15,6 @@ import SettingPage from './pages/setting_page';
 import MPinEnterPage from './pages/mpin_enter';
 
 export const defaultRoute='/landing';
-export const defaultWorkspaceRoute='/workspaces';
 export const defaultHomepageRoute='/home'
 
 export default {
