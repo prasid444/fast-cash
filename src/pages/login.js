@@ -73,7 +73,7 @@ class LoginPage extends Component {
             // backgroundColor:'rgba(245, 245, 245,1)'
         }}>
         <Text style={{
-            fontSize:50,
+            fontSize:40,
             fontWeight:'100',
             opacity:0.8
         }}>Simple Cash</Text>
@@ -95,6 +95,7 @@ class LoginPage extends Component {
           pressed={true}
           value={selectedCode}
           options={country_list}
+          height={40}
           keyText='dial_code'
           labelText='dial_code'
           width={'40%'} style={{
@@ -109,7 +110,7 @@ class LoginPage extends Component {
           <NeuButton width={'60%'} style={{
             width:'100%',
             borderRadius:20,
-            height:65
+            height:60
           }}  
           noPressedState={true} 
           pressed={false}
@@ -161,7 +162,8 @@ class LoginPage extends Component {
      }}>
       {login_signup_resp.fetching?
       <Spinner/>:
-     <NeuButton disabled={login_signup_resp.fetching}  noPressedState={true}   width={'80%'} style={{ backgroundColor:'white',borderRadius: 50}} onPress={() => {
+     <NeuButton disabled={login_signup_resp.fetching}  noPressedState={true}   width={'80%'} 
+     style={{ backgroundColor:'white',borderRadius: 50,height:60}} onPress={() => {
 
           if(pressedKeys.length!=10){
             Toast.show({type:'danger',text:"Please Enter Valid Phone Number"})

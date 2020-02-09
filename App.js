@@ -10,7 +10,7 @@
 import React from 'react';
 
 import SimpleCash from './src/app';
-import appRoutes, { defaultRoute, defaultWorkspaceRoute } from './src/routes';
+import appRoutes, { defaultRoute } from './src/routes';
 
 import { Root } from 'native-base';
 
@@ -20,7 +20,7 @@ import { basicDomains, networkDomains } from './src/domains';
 import LoginPage from './src/pages/login';
 import { SafeAreaView } from 'react-native';
 
-let { dev, target, network, auth,workspace } = APP_CONFIG;
+let { dev, target, network, auth } = APP_CONFIG;
 
 
 // console.log("pre building holder")
@@ -34,7 +34,6 @@ const domainHolder = new DomainHolder(
       target: target,
       network_config: network,
       auth_config: auth,
-      workspace_config: workspace
     }
   );
   // console.log("building holder")

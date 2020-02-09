@@ -31,14 +31,19 @@ class Authenticator extends RESTExecutor{
     };
   }
 
-  login(data){
+  login(data,successCallback,errorCallback){
     this.callbacks(
       (resp) => {
         let formatted_resp = this.auth_token_response_formatter(resp);
         this.persistTokens(formatted_resp);
         typeof this.onSuccess == 'function' && this.onSuccess(formatted_resp);
-      },
-      this.onError
+        typeof successCallback=='function'&&successCallback(formatted_resp);
+      },(val,error)=>{
+        // this.onError(val,error);
+        console.log(typeof errorCallback,"error typoe")
+        typeof errorCallback=='function'&&errorCallback(val,error);
+      }
+     
     ).execute(this.auth_token_request_formatter(data));
   }
 

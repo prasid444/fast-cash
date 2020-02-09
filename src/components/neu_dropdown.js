@@ -26,7 +26,7 @@ class NeuDropdown extends Component {
         disabled={this.props.disabled}
         activeOpacity={this.props.noPressedState ? 0.7 : 0.9}
         style={{ width: this.props.width || '100%', opacity: this.props.disabled ? 0.5 : 1}}>
-        <NeuView style={{borderRadius:20 }} pressed={false} >
+        <NeuView style={{borderRadius:20,height:60 }} pressed={false} >
         <Picker
         renderToHardwareTextureAndroid
               mode='dialog'

@@ -89,7 +89,8 @@ class NeuKeypad extends Component {
                       // typeof this.props.onChange==='function'&&this.props.onChange()
                   }} style={{
                       borderRadius: 20,
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      height:60
                   }}>
                   <Text style={{
                     fontSize:30,
@@ -121,7 +122,8 @@ class NeuKeypad extends Component {
                   }
                   }} style={{
                       borderRadius: 20,
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      height:60
                   }}>
                   <Text style={{
                     fontSize:30,
@@ -160,7 +162,8 @@ class NeuKeypad extends Component {
                     }
                   }} style={{
                       borderRadius: 20,
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      height:60
                   }}>
                   <Text style={{
                     fontSize:30,
@@ -187,7 +190,8 @@ class NeuKeypad extends Component {
                     })
                   }} style={{
                       borderRadius: 20,
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      height:60
                   }}>
                   <Icon name='ios-backspace'  type='Ionicons'/>
                   </NeuButton>

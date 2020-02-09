@@ -18,6 +18,9 @@ import { ScrollView } from 'react-native';
 import { withDomains } from '../lib/domain';
 import { Redirect } from 'react-router-native';
 import { defaultHomepageRoute } from '../routes';
+import { TouchableOpacity } from 'react-native';
+import { status_colors } from './transaction_detail';
+import { showErrorInToast } from '../lib/utils/util';
 
 class PinEnterPage extends Component {
   constructor(props) {
@@ -31,7 +34,7 @@ class PinEnterPage extends Component {
     this.state = {
        pressedKeys:location_state.user_pin||"",
        remainingTime:30,
-       userPhone:location_state.user_number
+       userPhone:location_state.user_number||"+9779860167527"
     }
 
     this.startCounting()
@@ -56,7 +59,7 @@ class PinEnterPage extends Component {
   render() {
     const {pressedKeys,remainingTime,userPhone}=this.state;
     let {authenticator}=this.props;
-    console.log("auth",authenticator);
+    // console.log("auth",authenticator);
     if(authenticator.isAuthenticated()){
       return <Redirect
        to={defaultHomepageRoute}
@@ -82,19 +85,22 @@ class PinEnterPage extends Component {
             overflow:'scroll'
             // backgroundColor:'red'
         }}>
-          <Text></Text>
+          {/* <Text></Text> */}
         {/* <Text style={{
             fontSize:50,
             fontWeight:'100'
         }}>Simple Cash</Text> */}
         <View>
         <Text style={{
-            fontWeight:'100'
+            fontWeight:'100',
+            fontSize:14,
+            margin:0,
+            opacity:0.6
         }}>Enter the 6-digit code sent to:</Text>
         <Text style={{
             fontWeight:'500',
-            fontSize:18,
-            marginTop:6,
+            fontSize:16,
+            marginTop:0,
         }}>{userPhone}</Text>
         <View style={{
           display:'flex',
@@ -112,7 +118,8 @@ class PinEnterPage extends Component {
           
           <NeuButton width={'60%'} style={{
             width:'100%',
-            borderRadius:30
+            borderRadius:30,
+            height:60
           }}  noPressedState={true} onPress={()=>{
 
           }}>
@@ -142,14 +149,18 @@ class PinEnterPage extends Component {
 
         }}/>
         <View style={{
-            paddingTop:20
+            paddingTop:0
         }}>
             <Text style={{
                 opacity: 0.4,
+                fontSize:12
             }}>Didn't receive code?</Text>
             {remainingTime!=0?
-            <Text>Request new code in 00:{remainingTime}</Text>
-            :<Button transparent onPress={()=>{
+            <Text style={{
+              fontSize:12,
+              opacity:0.8
+            }}>Request new code in 00:{remainingTime}</Text>
+            :<TouchableOpacity  transparent onPress={()=>{
                 Toast.show({
                     type:'success',
                     text:"Pin sent. Please check your messages"
@@ -159,7 +170,7 @@ class PinEnterPage extends Component {
                 },()=>{
                     this.startCounting()
                 })
-            }}><Text>Resend</Text></Button>}
+            }}><Text style={{color:status_colors['PENDING']}}>Resend</Text></TouchableOpacity>}
         </View>
         </View>
         <View style={{
@@ -172,12 +183,15 @@ class PinEnterPage extends Component {
        <Spinner/>:
      <NeuButton  noPressedState={true}   
      disabled={auth_resp.fetching}
-     width={'80%'} style={{backgroundColor:'white',borderRadius: 50}} onPress={() => {
+     width={'80%'} style={{backgroundColor:'white',borderRadius: 50,height:60}} onPress={() => {
         //   alert("I was pressed")
         // this.props.history.push('/home')
         authenticator.login({
           otp:pressedKeys,
           phone_number:userPhone
+        },()=>{},(error)=>{
+          console.log("got error",error)
+          showErrorInToast(error)
         })
         }}>
           <Text style={{ opacity: 0.9 }}>CONTINUE</Text>

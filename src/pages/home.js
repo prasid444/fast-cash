@@ -37,7 +37,7 @@ class HomePage extends Component {
     this.get_user=RESTExecutor.list().config({
       label:'user_detail'
     }).callbacks((success)=>{
-      console.log("success",success)
+      // console.log("success",success)
       if(success.result.mpin_set==false){
         this.props.history.push('/set_mpin')
       }
@@ -61,6 +61,15 @@ class HomePage extends Component {
       <Container style={{
         backgroundColor:'inherit'
       }}>
+           <View style={{
+              display:'flex',
+              flexDirection:'column',
+              justifyContent:'space-between',
+              flex:1,
+              overflow:'hidden',
+              padding:8,
+              // backgroundColor:'red'
+          }}>
         <BasicHeader no_back right={
           <View style={{
             display:'flex',
@@ -84,14 +93,7 @@ class HomePage extends Component {
           </NeuButton></View>
 
         }/>
-          <View style={{
-              display:'flex',
-              flexDirection:'column',
-              justifyContent:'space-between',
-              flex:1,
-              overflow:'hidden'
-          }}>
-              <View></View>
+       
               <View style={{
                   textAlign:'center',
                   alignItems:'center'
